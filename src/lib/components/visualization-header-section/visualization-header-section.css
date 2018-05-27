@@ -1,0 +1,13 @@
+.visualization-header-section-container {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 5px;
+}
+
+.visualization-filters {
+  margin-left: 3px;
+}
+
+.visualization-resize {
+  margin-right: 7px;
+}

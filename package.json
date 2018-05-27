@@ -1,0 +1,33 @@
+{
+  "name": "ngx-dhis2-visualization",
+  "license": "BSD",
+  "description": "Visualization module for dhis2 applications based on angular 6",
+  "repository": "",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
+    "@angular/core": "^6.0.0-rc.0 || ^6.0.0",
+    "@types/geojson": "^7946.0.1",
+    "@types/polylabel": "^1.0.5",
+    "@mapbox/geojson-area": "^0.2.2",
+    "angular-tree-component": "^7.0.1",
+    "angular2-virtual-scroll": "^0.3.2",
+    "highcharts": "^6.0.4",
+    "highcharts-grouped-categories": "^1.1.2",
+    "d2-utilizr": "^0.2.15",
+    "d3-color": "^1.0.3",
+    "d3-scale": "^2.0.0",
+    "d3-time-format": "^2.1.1",
+    "file-saver": "^1.3.8",
+    "geojson": "^0.5.0",
+    "gis-api": "^25.0.4",
+    "ng2-dnd": "^5.0.2",
+    "ng2-dragula": "^1.5.0",
+    "ngx-pagination": "^3.0.3",
+    "jszip": "^3.1.5",
+    "leaflet": "^1.3.1",
+    "leaflet.layergroup.collision": "^0.3.1",
+    "leaflet.markercluster": "^1.3.0",
+    "lodash": "^4.17.4"
+  }
+}
