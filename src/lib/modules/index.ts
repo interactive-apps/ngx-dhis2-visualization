@@ -5,14 +5,16 @@ import { ChartModule } from './chart/chart.module';
 // import { ReportsModule } from './reports/reports.module';
 // import { FeedbackMessageModule } from './feedback-message/feedback-message.module';
 // import { WidgetModule } from './widget/widget.module';
+import { MapModule } from './map/map.module';
 
 import { DictionaryModule } from './dictionary';
 
-export const modules: any[] = [DictionaryModule, ChartModule];
+export const modules: any[] = [DictionaryModule, ChartModule, MapModule];
 
 export * from './chart/chart.module';
 export * from './table/table.module';
 export * from './dictionary';
+export * from './map/map.module';
 // export * from './resources/resources.module';
 // export * from './users/users.module';
 // export * from './reports/reports.module';
