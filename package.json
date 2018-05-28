@@ -2,7 +2,10 @@
   "name": "ngx-dhis2-visualization",
   "license": "BSD",
   "description": "Visualization module for dhis2 applications based on angular 6",
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hisptz/ngx-dhis2-visualization.git"
+  },
   "version": "1.0.0",
   "peerDependencies": {
     "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
