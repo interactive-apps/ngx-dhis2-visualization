@@ -18,7 +18,8 @@ export class AddVisualizationLayerAction implements Action {
 
 export class UpdateVisualizationLayerAction implements Action {
   readonly type = VisualizationLayerActionTypes.UPDATE_VISUALIZATION_LAYER;
-  constructor(public visualizationLayer: VisualizationLayer) {}
+  constructor(public id: string, public changes: Partial<VisualizationLayer>) {
+  }
 }
 
 export class LoadVisualizationAnalyticsAction implements Action {
