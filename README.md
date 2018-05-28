@@ -2,7 +2,7 @@
 
 ## installation
 
-`npm install ngx-dhis2-visualization` (Coming soon)
+`npm install ngx-dhis2-visualization`
 
 ## Usage
 
