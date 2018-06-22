@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12" style="margin-bottom: 5px; margin-top: 10px;">
+      <select [(ngModel)]="currentLayer" (change)="onVisualizationChange($event)" class="form-control form-control-sm">
+        <option value="layer1">Layer 1</option>
+        <option value="layer2">Layer 2</option>
+      </select>
+    </div>
+    <div class="col-12" *ngIf="(visualizationLayers$ | async)">
+      <ngx-dhis2-visualization
+        [id]="currentLayer"
+        [type]="'CHART'"
+        [name]="'Visualization'"
+        [visualizationLayers]="visualizationLayers$ | async"
+      ></ngx-dhis2-visualization>
+    </div>
+  </div>
+</div>

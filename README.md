@@ -1,93 +1,27 @@
-# DHIS2 Visualization library
+# NgxDhis2VisualizationModule
 
-## installation
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.3.
 
-`npm install ngx-dhis2-visualization`
+## Development server
 
-## Usage
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-If the module is to be imported in the app.module, then import as 
+## Code scaffolding
 
-`import { NgxDhis2VisualizationModule } from 'ngx-dhis2-visualization';`
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-then add this in the imports
-```
-imports: [
-    ...
-    NgxDhis2VisualizationModule.forRoot(),
-    ...
-    ]
-```
+## Build
 
-If the module is to be imported in other modules, then add this in the imports
-```
-imports: [
-    ...
-    NgxDhis2VisualizationModule.forChild(),
-    ...
-    ]
-```
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-Once imported, visualization card can be called in as 
+## Running unit tests
 
-```
-<ngx-dhis2-visualization
-  [id]="'visualizationId'"
-  [type]="'CHART'"
-  [name]="'Visualization'"
-  [visualizationLayers]="visualizationLayers"
-></ngx-dhis2-visualization>
-```
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-where
- - id: unique id for visualization
- - type: type of visualization eg. CHART, TABLE, MAP, INFO etc
- - name: name for visualization
- - visualizationLayers: content for the visualization, this is an array whose format is
-  ```
-  [{
-    id: string;
-    analytics?: Analytics;
-    dataSelections?: VisualizationDataSelection[];
-    layout?: VisualizationLayout;
-    metadataIdentifiers?: Array<string>;
-    layerType?: string;
-    config?: {[name: string]: any};
-  }]
-  ```
-  where
-  - Analytics has format
-  ```
-  {
-    headers?: any[];
-    metaData?: any;
-    rows: Array<any[]>;
-  }
-  ```
-  - VisualizationDataSelection has format
-  ```
-   {
-     dimension: string;
-     name: string;
-     layout?: string;
-     filter?: string;
-     optionSet?: any;
-     legendSet?: string;
-     items: Array<{
-       id: string;
-       name: string;
-       type: string;
-     }>;
-   }
-  ```
-  - VisualizationLayout has format
-  ```
-  {
-    rows: Array<string>;
-    columns: Array<string>;
-    filters: Array<string>;
-    excluded?: Array<string>;
-  }
-  ```
-  
-  
+## Running end-to-end tests
+
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+
+## Further help
+
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
