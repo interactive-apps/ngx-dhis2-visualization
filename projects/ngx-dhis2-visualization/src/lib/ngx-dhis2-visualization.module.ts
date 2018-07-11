@@ -3,6 +3,8 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { CommonModule } from '@angular/common';
 
+import { TranslateModule } from '@ngx-translate/core';
+
 import { containers } from './containers/index';
 import { pipes } from './pipes/index';
 import { components } from './components/index';
@@ -16,6 +18,7 @@ import { TableModule } from './modules/table/table.module';
   imports: [
     CommonModule,
     DictionaryModule.forChild(),
+    TranslateModule.forChild(),
     ChartModule,
     TableModule,
     StoreModule.forFeature('visualization', reducers),

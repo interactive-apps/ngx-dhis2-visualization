@@ -28,7 +28,7 @@
     "@ngrx/store": "^6.0.0-beta.3",
     "@ngrx/store-devtools": "^6.0.0-beta.3",
     "@ngx-translate/core": "^9.1.1",
-    "@ngx-translate/http-loader": "0.1.0",
+    "@ngx-translate/http-loader": "^0.1.0",
     "@types/geojson": "^7946.0.1",
     "@types/polylabel": "^1.0.5",
     "angular-tree-component": "^7.0.1",
@@ -54,6 +54,7 @@
     "ngrx-store-freeze": "^0.2.3",
     "ngx-pagination": "^3.0.3",
     "rxjs": "^6.2.1",
+    "rxjs-compat": "^6.2.1",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {

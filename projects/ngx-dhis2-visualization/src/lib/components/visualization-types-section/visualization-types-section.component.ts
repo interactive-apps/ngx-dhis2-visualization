@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { TABLE_ICON } from '../../icons';
 
 @Component({
   selector: 'app-visualization-types-section',
@@ -11,11 +12,13 @@ export class VisualizationTypesSectionComponent implements OnInit {
   visualizationTypeChange: EventEmitter<string> = new EventEmitter<string>();
   @Output() onToggleInterpretation = new EventEmitter();
 
+  tableIcon: string;
+
   constructor() {
+    this.tableIcon = TABLE_ICON;
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   onVisualizationSelect(e, type) {
     e.stopPropagation();
