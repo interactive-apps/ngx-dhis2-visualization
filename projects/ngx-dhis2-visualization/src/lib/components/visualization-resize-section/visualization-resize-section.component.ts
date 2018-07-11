@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { RESIZE_ICON, FULL_SCREEN_ICON } from '../../icons';
 
 @Component({
   selector: 'app-visualization-resize-section',
@@ -6,7 +7,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   styleUrls: ['./visualization-resize-section.component.css']
 })
 export class VisualizationResizeSectionComponent implements OnInit {
-
   @Input() id: string;
   @Input() showResizeButton: boolean;
   @Input() fullScreen: boolean;
@@ -14,11 +14,15 @@ export class VisualizationResizeSectionComponent implements OnInit {
   @Output() toggleFullScreen: EventEmitter<string> = new EventEmitter<string>();
   @Output() resizeCard: EventEmitter<string> = new EventEmitter<string>();
 
+  resizeIcon: string;
+  fullScreenIcon: string;
+
   constructor() {
+    this.resizeIcon = RESIZE_ICON;
+    this.fullScreenIcon = FULL_SCREEN_ICON;
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   onToggleFullScreen(e) {
     e.stopPropagation();
@@ -31,5 +35,4 @@ export class VisualizationResizeSectionComponent implements OnInit {
     }
     this.resizeCard.emit(this.id);
   }
-
 }
