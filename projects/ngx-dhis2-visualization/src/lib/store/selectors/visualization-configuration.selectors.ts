@@ -9,15 +9,21 @@ import {
   VisualizationUiConfig,
   VisualizationLayer,
   VisualizationLayout
-} from '../../models/index';
+} from '../../models';
 
-export const getCurrentVisualizationConfig = (visualizationId: string) => createSelector(
-  getVisualizationObjectEntities, getVisualizationConfigurationEntities,
-  (visualizationObjectEntities, visualizationConfigurationEntities) => {
-    const currentVisualizationObject: Visualization = visualizationObjectEntities[visualizationId];
-    if (!currentVisualizationObject) {
-      return null;
+export const getCurrentVisualizationConfig = (visualizationId: string) =>
+  createSelector(
+    getVisualizationObjectEntities,
+    getVisualizationConfigurationEntities,
+    (visualizationObjectEntities, visualizationConfigurationEntities) => {
+      const currentVisualizationObject: Visualization =
+        visualizationObjectEntities[visualizationId];
+      if (!currentVisualizationObject) {
+        return null;
+      }
+
+      return visualizationConfigurationEntities[
+        currentVisualizationObject.visualizationConfigId
+      ];
     }
-
-    return visualizationConfigurationEntities[currentVisualizationObject.visualizationConfigId];
-  });
+  );

@@ -1,4 +1,4 @@
 export * from './dictionary.module';
-export * from './models/index';
-export * from './services/index';
-export * from './store/index';
+export * from './models';
+export * from './services';
+export * from './store';

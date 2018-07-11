@@ -5,12 +5,12 @@ import { CommonModule } from '@angular/common';
 
 import { TranslateModule } from '@ngx-translate/core';
 
-import { containers } from './containers/index';
-import { pipes } from './pipes/index';
-import { components } from './components/index';
-import { effects, reducers } from './store/index';
-import { services } from './services/index';
-import { DictionaryModule } from './modules/index';
+import { containers } from './containers';
+import { pipes } from './pipes';
+import { components } from './components';
+import { effects, reducers } from './store';
+import { services } from './services';
+import { DictionaryModule } from './modules';
 import { ChartModule } from './modules/chart/chart.module';
 import { TableModule } from './modules/table/table.module';
 

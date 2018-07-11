@@ -1,5 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { TABLE_ICON } from '../../icons';
+import {
+  TABLE_ICON,
+  COLUMN_CHART_ICON,
+  MAP_ICON,
+  INFO_ICON
+} from '../../icons';
 
 @Component({
   selector: 'app-visualization-types-section',
@@ -13,9 +18,15 @@ export class VisualizationTypesSectionComponent implements OnInit {
   @Output() onToggleInterpretation = new EventEmitter();
 
   tableIcon: string;
+  chartIcon: string;
+  mapIcon: string;
+  infoIcon: string;
 
   constructor() {
     this.tableIcon = TABLE_ICON;
+    this.chartIcon = COLUMN_CHART_ICON;
+    this.mapIcon = MAP_ICON;
+    this.infoIcon = INFO_ICON;
   }
 
   ngOnInit() {}

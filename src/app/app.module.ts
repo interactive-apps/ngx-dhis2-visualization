@@ -4,21 +4,22 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { metaReducers, reducers } from './store/reducers';
-import { effects } from './store/effects/index';
+import { effects } from './store/effects';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { RoutingModule } from './app.routes';
-import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
+import {
+  RouterStateSerializer,
+  StoreRouterConnectingModule
+} from '@ngrx/router-store';
 import { environment } from '../environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { RouteSerializer } from './utils/route-serializer.util';
-import { NgxDhis2VisualizationModule } from 'ngx-dhis2-visualization';
+import { NgxDhis2VisualizationModule } from 'dist/ngx-dhis2-visualization/hisptz-ngx-dhis2-visualization';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     FormsModule,
@@ -28,7 +29,7 @@ import { FormsModule } from '@angular/forms';
     /**
      * Reducers
      */
-    StoreModule.forRoot(reducers, {metaReducers}),
+    StoreModule.forRoot(reducers, { metaReducers }),
 
     /**
      * Effects
@@ -45,10 +46,7 @@ import { FormsModule } from '@angular/forms';
      */
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
-  providers: [
-    {provide: RouterStateSerializer, useClass: RouteSerializer}
-  ],
+  providers: [{ provide: RouterStateSerializer, useClass: RouteSerializer }],
   bootstrap: [AppComponent]
 })
-export class AppModule {
-}
+export class AppModule {}
