@@ -5,16 +5,19 @@ import { VisualizationDataSelection } from '../models/visualization-data-selecti
 import { getAnalyticsUrl } from '../helpers';
 import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AnalyticsService {
-  constructor(private http: NgxDhis2HttpClientService) {
-  }
+  constructor(private http: NgxDhis2HttpClientService) {}
 
-  getAnalytics(dataSelections: VisualizationDataSelection[], layerType: string, config?: any): Observable<any> {
-    const analyticsUrl = (layerType === 'thematic' || layerType === 'event') ?
-                         getAnalyticsUrl(dataSelections, layerType, config) :
-                         '';
-    return analyticsUrl !== '' ? this.http.get(`/api/${analyticsUrl}`, true) : of(null);
-
+  getAnalytics(
+    dataSelections: VisualizationDataSelection[],
+    layerType: string,
+    config?: any
+  ): Observable<any> {
+    const analyticsUrl =
+      layerType === 'thematic' || layerType === 'event'
+        ? getAnalyticsUrl(dataSelections, layerType, config)
+        : '';
+    return analyticsUrl !== '' ? this.http.get(analyticsUrl, true) : of(null);
   }
 }
