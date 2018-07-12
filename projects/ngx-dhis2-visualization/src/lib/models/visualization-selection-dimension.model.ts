@@ -6,5 +6,5 @@ export interface VisualizationSelectionDimension {
     id: string;
     name: string;
     type: string;
-  }>
+  }>;
 }

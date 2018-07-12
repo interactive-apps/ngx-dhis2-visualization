@@ -1,23 +1,35 @@
-import { VisualizationLayer } from '../../models/visualization-layer.model';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
-import { VisualizationLayerActionTypes } from '../actions/visualization-layer.actions';
+// models
+import { VisualizationLayer } from '../../models';
 
-export interface VisualizationLayerState extends EntityState<VisualizationLayer> {
-}
+// actions
+import { VisualizationLayerActionTypes } from '../actions';
 
-export const visualizationLayerAdapter: EntityAdapter<VisualizationLayer> = createEntityAdapter<VisualizationLayer>();
+export interface VisualizationLayerState
+  extends EntityState<VisualizationLayer> {}
 
-const initialState: VisualizationLayerState = visualizationLayerAdapter.getInitialState({});
+export const visualizationLayerAdapter: EntityAdapter<
+  VisualizationLayer
+> = createEntityAdapter<VisualizationLayer>();
 
-export function visualizationLayerReducer(state: VisualizationLayerState = initialState,
-  action: any): VisualizationLayerState {
+const initialState: VisualizationLayerState = visualizationLayerAdapter.getInitialState(
+  {}
+);
+
+export function visualizationLayerReducer(
+  state: VisualizationLayerState = initialState,
+  action: any
+): VisualizationLayerState {
   switch (action.type) {
     case VisualizationLayerActionTypes.ADD_VISUALIZATION_LAYER:
       return visualizationLayerAdapter.addOne(action.visualizationLayer, state);
     case VisualizationLayerActionTypes.UPDATE_VISUALIZATION_LAYER:
     case VisualizationLayerActionTypes.LOAD_VISUALIZATION_ANALYTICS_SUCCESS:
-      return visualizationLayerAdapter.updateOne({id: action.id, changes: action.changes}, state);
+      return visualizationLayerAdapter.updateOne(
+        { id: action.id, changes: action.changes },
+        state
+      );
   }
   return state;
 }

@@ -1,4 +1,6 @@
-export function getVisualizationWidthFromShape(dashboardItemShape: string): string {
+export function getVisualizationWidthFromShape(
+  dashboardItemShape: string
+): string {
   switch (dashboardItemShape) {
     case 'DOUBLE_WIDTH':
       return 'span 2';

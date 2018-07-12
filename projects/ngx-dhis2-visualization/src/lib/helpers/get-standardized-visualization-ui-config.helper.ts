@@ -1,9 +1,13 @@
-import { VisualizationUiConfig } from '../models/visualization-ui-config.model';
+import { VisualizationUiConfig } from '../models';
 import { checkIfVisualizationIsNonVisualizable } from './check-if-visualization-is-non-visualizable.helper';
 import { getVisualizationWidthFromShape } from './get-visualization-width-from-shape.helper';
 
-export function getStandardizedVisualizationUiConfig(visualizationItem: any): VisualizationUiConfig {
-  const isNonVisualizable = checkIfVisualizationIsNonVisualizable(visualizationItem.type);
+export function getStandardizedVisualizationUiConfig(
+  visualizationItem: any
+): VisualizationUiConfig {
+  const isNonVisualizable = checkIfVisualizationIsNonVisualizable(
+    visualizationItem.type
+  );
   return {
     id: `${visualizationItem.id}_ui_config`,
     shape: visualizationItem.shape || 'NORMAL',

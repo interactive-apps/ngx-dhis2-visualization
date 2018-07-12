@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-
-import { VisualizationDataSelection } from '../models/visualization-data-selection.model';
-import { getAnalyticsUrl } from '../helpers';
 import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
+
+import { VisualizationDataSelection } from '../models';
+import { getAnalyticsUrl } from '../helpers';
 
 @Injectable({ providedIn: 'root' })
 export class AnalyticsService {

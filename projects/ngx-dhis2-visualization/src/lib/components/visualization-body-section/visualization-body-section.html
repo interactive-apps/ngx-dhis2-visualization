@@ -1,25 +1,23 @@
 <div class="visualization-body-section-container">
   <!--chart visualization-->
   <div class="chart-visualization-block" *ngIf="visualizationConfig.currentType === 'CHART'">
-    <chart-list [visualizationId]="id" [visualizationLayers]="visualizationLayers" [chartHeight]="visualizationUiConfig.height"></chart-list>
+    <!-- <chart-list [visualizationId]="id" [visualizationLayers]="visualizationLayers" [chartHeight]="visualizationUiConfig.height"></chart-list> -->
   </div>
   <!--end of chart visualization-->
 
   <!--table visualization-->
   <div class="chart-visualization-block" *ngIf="visualizationConfig.currentType === 'TABLE'">
-    <table-list
-      [visualizationLayers]="visualizationLayers"
-      [visualizationType]="visualizationConfig.type"></table-list>
+    <!-- <table-list [visualizationLayers]="visualizationLayers" [visualizationType]="visualizationConfig.type"></table-list> -->
   </div>
   <!--end of table visualization-->
 
   <!--map visualization-->
   <div class="map-visualization-block" *ngIf="visualizationConfig.currentType === 'MAP'">
     <!--<app-map-->
-      <!--[id]="id"-->
-      <!--[visualizationLayers]="visualizationLayers"-->
-      <!--[visualizationUiConfig]="visualizationUiConfig"-->
-      <!--[visualizationConfig]="visualizationConfig"></app-map>-->
+    <!--[id]="id"-->
+    <!--[visualizationLayers]="visualizationLayers"-->
+    <!--[visualizationUiConfig]="visualizationUiConfig"-->
+    <!--[visualizationConfig]="visualizationConfig"></app-map>-->
   </div>
   <!--end of map visualization-->
 

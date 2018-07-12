@@ -7,12 +7,7 @@
       </select>
     </div>
     <div class="col-12" *ngIf="(visualizationLayers$ | async)">
-      <ngx-dhis2-visualization
-        [id]="currentLayer"
-        [type]="'CHART'"
-        [name]="'Visualization'"
-        [visualizationLayers]="visualizationLayers$ | async"
-      ></ngx-dhis2-visualization>
+      <ngx-dhis2-visualization [id]="currentLayer" [type]="'CHART'" [name]="'Visualization'" [visualizationLayers]="visualizationLayers$ | async"></ngx-dhis2-visualization>
     </div>
   </div>
 </div>

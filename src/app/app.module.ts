@@ -15,8 +15,8 @@ import {
 import { environment } from '../environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { RouteSerializer } from './utils/route-serializer.util';
-import { NgxDhis2VisualizationModule } from 'dist/ngx-dhis2-visualization/hisptz-ngx-dhis2-visualization';
 import { FormsModule } from '@angular/forms';
+import { NgxDhis2VisualizationModule } from 'ngx-dhis2-visualization';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,7 +25,7 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     RoutingModule,
     HttpClientModule,
-    NgxDhis2VisualizationModule.forRoot(),
+    NgxDhis2VisualizationModule,
     /**
      * Reducers
      */

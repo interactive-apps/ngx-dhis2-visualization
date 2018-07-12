@@ -1,7 +1,9 @@
-import { Visualization } from '../models/visualization.model';
+import { Visualization } from '../models';
 import * as _ from 'lodash';
 
-export function getStandardizedVisualizationObject(visualizationItem: any): Visualization {
+export function getStandardizedVisualizationObject(
+  visualizationItem: any
+): Visualization {
   return {
     id: visualizationItem.id,
     name: getVisualizationName(visualizationItem),
@@ -38,12 +40,16 @@ function getVisualizationName(visualizationItem: any) {
     case 'USERS':
       return 'Users';
     default:
-      return visualizationItem.name ? visualizationItem.name : visualizationItem.type &&
-      visualizationItem.hasOwnProperty(_.camelCase(visualizationItem.type))
-        ? _.isPlainObject(visualizationItem[_.camelCase(visualizationItem.type)])
-          ? visualizationItem[_.camelCase(visualizationItem.type)].displayName
-          : null
-        : null;
+      return visualizationItem.name
+        ? visualizationItem.name
+        : visualizationItem.type &&
+          visualizationItem.hasOwnProperty(_.camelCase(visualizationItem.type))
+          ? _.isPlainObject(
+              visualizationItem[_.camelCase(visualizationItem.type)]
+            )
+            ? visualizationItem[_.camelCase(visualizationItem.type)].displayName
+            : null
+          : null;
   }
 }
 
@@ -52,15 +58,17 @@ function getFavoriteDetails(visualizationItem: any) {
     return null;
   }
   const favoriteItem = visualizationItem[_.camelCase(visualizationItem.type)];
-  return _.isPlainObject(favoriteItem) ? {
-    id: favoriteItem.id,
-    type: _.camelCase(visualizationItem.type),
-    name: getVisualizationName(visualizationItem),
-    useTypeAsBase: true,
-    requireAnalytics: true
-  } : {
-    id: visualizationItem.id,
-    name: getVisualizationName(visualizationItem),
-    type: _.camelCase(visualizationItem.type)
-  };
+  return _.isPlainObject(favoriteItem)
+    ? {
+        id: favoriteItem.id,
+        type: _.camelCase(visualizationItem.type),
+        name: getVisualizationName(visualizationItem),
+        useTypeAsBase: true,
+        requireAnalytics: true
+      }
+    : {
+        id: visualizationItem.id,
+        name: getVisualizationName(visualizationItem),
+        type: _.camelCase(visualizationItem.type)
+      };
 }

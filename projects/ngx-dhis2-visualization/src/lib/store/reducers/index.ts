@@ -1,11 +1,18 @@
-import { ActionReducerMap, createFeatureSelector, createSelector, MemoizedSelector } from '@ngrx/store';
+import {
+  ActionReducerMap,
+  createFeatureSelector,
+  createSelector,
+  MemoizedSelector
+} from '@ngrx/store';
 import { Dictionary } from '@ngrx/entity/src/models';
 import {
-  visualizationObjectAdapter, visualizationObjectReducer,
+  visualizationObjectAdapter,
+  visualizationObjectReducer,
   VisualizationObjectState
 } from './visualization-object.reducer';
 import {
-  visualizationLayerAdapter, visualizationLayerReducer,
+  visualizationLayerAdapter,
+  visualizationLayerReducer,
   VisualizationLayerState
 } from './visualization-layer.reducer';
 import {
@@ -14,10 +21,17 @@ import {
   VisualizationUiConfigurationState
 } from './visualization-ui-configuration.reducer';
 import {
-  visualizationConfigurationAdapter, visualizationConfigurationReducer,
+  visualizationConfigurationAdapter,
+  visualizationConfigurationReducer,
   VisualizationConfigurationState
 } from './visualization-configuration.reducer';
-import { Visualization, VisualizationLayer, VisualizationUiConfig, VisualizationConfig } from '../../models';
+
+import {
+  Visualization,
+  VisualizationLayer,
+  VisualizationUiConfig,
+  VisualizationConfig
+} from '../../models';
 
 export interface VisualizationState {
   visualizationObject: VisualizationObjectState;
@@ -33,11 +47,15 @@ export const reducers: ActionReducerMap<VisualizationState> = {
   visualizationConfiguration: visualizationConfigurationReducer
 };
 
-export const getVisualizationState = createFeatureSelector<VisualizationState>('visualization');
+export const getVisualizationState = createFeatureSelector<VisualizationState>(
+  'visualization'
+);
 
 // General selector for visualization object
-export const getVisualizationObjectState = createSelector(getVisualizationState,
-  (state: VisualizationState) => state.visualizationObject);
+export const getVisualizationObjectState = createSelector(
+  getVisualizationState,
+  (state: VisualizationState) => state.visualizationObject
+);
 
 export const {
   selectEntities: getVisualizationObjectEntities,
@@ -45,8 +63,10 @@ export const {
 } = visualizationObjectAdapter.getSelectors(getVisualizationObjectState);
 
 // General selector for visualization layers
-export const getVisualizationLayerState = createSelector(getVisualizationState,
-  (state: VisualizationState) => state.visualizationLayer);
+export const getVisualizationLayerState = createSelector(
+  getVisualizationState,
+  (state: VisualizationState) => state.visualizationLayer
+);
 
 export const {
   selectEntities: getVisualizationLayerEntities,
@@ -54,17 +74,25 @@ export const {
 } = visualizationLayerAdapter.getSelectors(getVisualizationLayerState);
 
 // General selector for visualization ui configurations
-export const getVisualizationUiConfigurationState = createSelector(getVisualizationState,
-  (state: VisualizationState) => state.visualizationUiConfiguration);
+export const getVisualizationUiConfigurationState = createSelector(
+  getVisualizationState,
+  (state: VisualizationState) => state.visualizationUiConfiguration
+);
 
 export const {
   selectEntities: getVisualizationUiConfigurationEntities
-} = visualizationUiConfigurationAdapter.getSelectors(getVisualizationUiConfigurationState);
+} = visualizationUiConfigurationAdapter.getSelectors(
+  getVisualizationUiConfigurationState
+);
 
 // General selector for visualization configurations
-export const getVisualizationConfigurationState = createSelector(getVisualizationState,
-  (state: VisualizationState) => state.visualizationConfiguration);
+export const getVisualizationConfigurationState = createSelector(
+  getVisualizationState,
+  (state: VisualizationState) => state.visualizationConfiguration
+);
 
 export const {
   selectEntities: getVisualizationConfigurationEntities
-} = visualizationConfigurationAdapter.getSelectors(getVisualizationConfigurationState);
+} = visualizationConfigurationAdapter.getSelectors(
+  getVisualizationConfigurationState
+);
