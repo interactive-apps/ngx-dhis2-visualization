@@ -19,19 +19,19 @@ import {
   AddVisualizationConfigurationAction,
   UpdateVisualizationConfigurationAction,
   AddVisualizationUiConfigurationAction
-} from '../actions';
+} from '../actions/index';
 
 // reducers
 import {
   VisualizationState,
   getVisualizationObjectEntities
-} from '../reducers';
+} from '../reducers/index';
 
 // models
-import { Visualization, VisualizationLayer } from '../../models';
+import { Visualization, VisualizationLayer } from '../../models/index';
 
 // services
-import { FavoriteService } from '../../services';
+import { FavoriteService } from '../../services/favorite.service';
 
 // helpers
 import {
@@ -41,7 +41,7 @@ import {
   getStandardizedVisualizationObject,
   getStandardizedVisualizationUiConfig,
   getStandardizedAnalyticsObject
-} from '../../helpers';
+} from '../../helpers/index';
 
 @Injectable()
 export class VisualizationObjectEffects {

@@ -13,13 +13,15 @@ const HighchartsGroupedCategories = require('highcharts-grouped-categories')(
   HighchartGauge = require('highcharts/modules/solid-gauge.js')(Highcharts),
   HighchartDrilldown = require('highcharts/modules/drilldown.js')(Highcharts);
 
-import { ChartService } from '../../services/chart.service';
 import { ChartConfiguration } from '../../models/chart-configuration.model';
 import { VisualizationExportService } from '../../../../services/visualization-export.service';
 import { ChartType } from '../../models/chart-type.model';
 import { CHART_TYPES } from '../../constants/chart-types.constant';
 
+import { drawChart } from '../../helpers/index';
+
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'chart-item',
   templateUrl: './chart-item.component.html',
   styleUrls: ['./chart-item.component.css']
@@ -34,10 +36,7 @@ export class ChartItemComponent implements OnInit {
   currentChartType: string;
   renderId: string;
 
-  constructor(
-    private chartService: ChartService,
-    private visualizationExportService: VisualizationExportService
-  ) {
+  constructor(private visualizationExportService: VisualizationExportService) {
     this.chartTypes = CHART_TYPES;
     this.showOptions = true;
   }
@@ -50,10 +49,7 @@ export class ChartItemComponent implements OnInit {
 
   drawChart(analyticsObject, chartConfiguration): void {
     if (chartConfiguration && analyticsObject) {
-      const chartObject: any = this.chartService.drawChart(
-        analyticsObject,
-        chartConfiguration
-      );
+      const chartObject: any = drawChart(analyticsObject, chartConfiguration);
 
       if (chartObject) {
         setTimeout(() => {
