@@ -23,7 +23,7 @@
 
   <!--info/dictionary visualization-->
   <div class="dictionary-visualization-block" *ngIf="visualizationConfig.currentType === 'INFO'">
-    <!--<dictionary-list></dictionary-list>-->
+    <dictionary-list [visualizationLayers]="visualizationLayers"></dictionary-list>
   </div>
   <!--end of info/dictionary visualization-->
 

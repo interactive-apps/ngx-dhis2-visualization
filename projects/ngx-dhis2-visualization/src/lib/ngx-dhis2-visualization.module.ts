@@ -13,7 +13,7 @@ import { VisualizationObjectEffects } from './store/effects/visualization-object
 import { VisualizationLayerEffects } from './store/effects/visualization-layer.effects';
 import { ChartModule } from './modules/chart/chart.module';
 import { TableModule } from './modules/table/table.module';
-// import { DictionaryModule } from './modules/dictionary';
+import { DictionaryModule } from './modules/dictionary/dictionary.module';
 
 @NgModule({
   imports: [
@@ -25,7 +25,8 @@ import { TableModule } from './modules/table/table.module';
       VisualizationLayerEffects
     ]),
     ChartModule,
-    TableModule
+    TableModule,
+    DictionaryModule
   ],
   declarations: [...pipes, ...components, ...containers],
   exports: [...containers]
