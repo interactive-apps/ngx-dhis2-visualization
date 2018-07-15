@@ -14,6 +14,7 @@ import { VisualizationLayerEffects } from './store/effects/visualization-layer.e
 import { ChartModule } from './modules/chart/chart.module';
 import { TableModule } from './modules/table/table.module';
 import { DictionaryModule } from './modules/dictionary/dictionary.module';
+import { MapModule } from './modules/map/map.module';
 
 @NgModule({
   imports: [
@@ -26,22 +27,10 @@ import { DictionaryModule } from './modules/dictionary/dictionary.module';
     ]),
     ChartModule,
     TableModule,
-    DictionaryModule
+    DictionaryModule,
+    MapModule
   ],
   declarations: [...pipes, ...components, ...containers],
   exports: [...containers]
 })
-export class NgxDhis2VisualizationModule {
-  // public static forRoot(): ModuleWithProviders {
-  //   return {
-  //     ngModule: NgxDhis2VisualizationModule,
-  //     providers: []
-  //   };
-  // }
-  // public static forChild(): ModuleWithProviders {
-  //   return {
-  //     ngModule: NgxDhis2VisualizationModule,
-  //     providers: []
-  //   };
-  // }
-}
+export class NgxDhis2VisualizationModule {}
