@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ChartItemComponent } from '../chart-item/chart-item.component';
-import { VisualizationLayer } from '../../../../models/index';
-import { getChartConfiguration } from '../../helpers/index';
+import { VisualizationLayer } from '../../../../models';
+import { getChartConfiguration } from '../../helpers';
 
 @Component({
   // tslint:disable-next-line:component-selector

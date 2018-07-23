@@ -8,12 +8,15 @@ import { effects } from './store/effects';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { RoutingModule } from './app.routes';
-import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
+import {
+  RouterStateSerializer,
+  StoreRouterConnectingModule
+} from '@ngrx/router-store';
 import { environment } from '../environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { RouteSerializer } from './utils/route-serializer.util';
 import { FormsModule } from '@angular/forms';
-import { NgxDhis2VisualizationModule } from '../../projects/ngx-dhis2-visualization/src/lib/ngx-dhis2-visualization.module';
+import { NgxDhis2VisualizationModule } from 'projects/ngx-dhis2-visualization/src/lib/ngx-dhis2-visualization.module';
 
 @NgModule({
   declarations: [AppComponent],

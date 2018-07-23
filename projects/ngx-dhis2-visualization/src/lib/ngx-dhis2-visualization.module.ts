@@ -5,10 +5,10 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 
 // store
-import { reducers } from './store/reducers/index';
-import { pipes } from './pipes/index';
-import { components } from './components/index';
-import { containers } from './containers/index';
+import { reducers } from './store/reducers';
+import { pipes } from './pipes';
+import { components } from './components';
+import { containers } from './containers';
 import { VisualizationObjectEffects } from './store/effects/visualization-object.effects';
 import { VisualizationLayerEffects } from './store/effects/visualization-layer.effects';
 import { ChartModule } from './modules/chart/chart.module';
@@ -21,7 +21,10 @@ import { MapModule } from './modules/map/map.module';
     CommonModule,
     TranslateModule.forRoot(),
     StoreModule.forFeature('visualization', reducers),
-    EffectsModule.forFeature([VisualizationObjectEffects, VisualizationLayerEffects]),
+    EffectsModule.forFeature([
+      VisualizationObjectEffects,
+      VisualizationLayerEffects
+    ]),
     ChartModule,
     TableModule,
     DictionaryModule,

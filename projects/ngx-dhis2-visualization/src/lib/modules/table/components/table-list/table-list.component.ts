@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TableConfiguration } from '../../models/table-configuration';
 
-import { getTableConfiguration } from '../../helpers/index';
+import { getTableConfiguration } from '../../helpers';
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'table-list',

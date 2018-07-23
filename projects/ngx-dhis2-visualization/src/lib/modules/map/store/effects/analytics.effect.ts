@@ -10,7 +10,7 @@ import * as visualizationObjectActions from '../actions/visualization-object.act
 import * as dataSelectionAction from '../actions/data-selection.action';
 import * as layersActions from '../actions/layers.action';
 import * as fromServices from '../../services';
-import * as fromStore from '../../store';
+import * as fromStore from '..';
 import { getDimensionItems } from '../../utils/analytics';
 import { toGeoJson } from '../../utils/layers';
 @Injectable()

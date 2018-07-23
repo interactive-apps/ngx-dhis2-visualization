@@ -1,4 +1,4 @@
-import * as fromVisualizationLegend from './../actions/visualization-legend.action';
+import * as fromVisualizationLegend from '../actions/visualization-legend.action';
 import { VisualizationLegend } from '../../models/visualization-legend.model';
 
 export interface VisualizationLegendState {

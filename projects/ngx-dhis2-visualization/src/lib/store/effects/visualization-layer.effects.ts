@@ -6,7 +6,7 @@ import { tap } from 'rxjs/operators';
 import { forkJoin, Observable } from 'rxjs';
 
 // reducers
-import { VisualizationState } from '../reducers/index';
+import { VisualizationState } from '../reducers';
 
 // actions
 import {

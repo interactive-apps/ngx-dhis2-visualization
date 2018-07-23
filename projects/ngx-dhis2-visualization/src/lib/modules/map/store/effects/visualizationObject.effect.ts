@@ -23,7 +23,7 @@ import * as visualizationObjectActions from '../actions/visualization-object.act
 import * as legendSetActions from '../actions/legend-set.action';
 import * as layerActions from '../actions/layers.action';
 import * as fromServices from '../../services';
-import * as fromStore from '../../store';
+import * as fromStore from '..';
 import * as fromUtils from '../../utils';
 import { Layer } from '../../models/layer.model';
 import { toGeoJson } from '../../utils/layers';

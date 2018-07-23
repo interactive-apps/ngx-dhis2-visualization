@@ -18,7 +18,7 @@ import { VisualizationExportService } from '../../../../services/visualization-e
 import { ChartType } from '../../models/chart-type.model';
 import { CHART_TYPES } from '../../constants/chart-types.constant';
 
-import { drawChart } from '../../helpers/index';
+import { drawChart } from '../../helpers';
 
 @Component({
   // tslint:disable-next-line:component-selector

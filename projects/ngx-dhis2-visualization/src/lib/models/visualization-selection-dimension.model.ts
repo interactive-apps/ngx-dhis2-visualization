@@ -5,6 +5,6 @@ export interface VisualizationSelectionDimension {
   items: Array<{
     id: string;
     name: string;
-    type: string;
+    type?: string;
   }>;
 }

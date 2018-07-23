@@ -6,7 +6,7 @@ import { map, switchMap, catchError, tap } from 'rxjs/operators';
 import * as legendSetAction from '../actions/legend-set.action';
 import * as visualizationObjectActions from '../actions/visualization-object.action';
 import * as fromServices from '../../services';
-import * as fromStore from '../../store';
+import * as fromStore from '..';
 
 @Injectable()
 export class LegendSetEffects {

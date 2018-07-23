@@ -19,16 +19,16 @@ import {
   AddVisualizationConfigurationAction,
   UpdateVisualizationConfigurationAction,
   AddVisualizationUiConfigurationAction
-} from '../actions/index';
+} from '../actions';
 
 // reducers
 import {
   VisualizationState,
   getVisualizationObjectEntities
-} from '../reducers/index';
+} from '../reducers';
 
 // models
-import { Visualization, VisualizationLayer } from '../../models/index';
+import { Visualization, VisualizationLayer } from '../../models';
 
 // services
 import { FavoriteService } from '../../services/favorite.service';
@@ -40,8 +40,9 @@ import {
   getStandardizedVisualizationType,
   getStandardizedVisualizationObject,
   getStandardizedVisualizationUiConfig,
-  getStandardizedAnalyticsObject
-} from '../../helpers/index';
+  getStandardizedAnalyticsObject,
+  getSelectionDimensionsFromAnalytics
+} from '../../helpers';
 
 @Injectable()
 export class VisualizationObjectEffects {
@@ -274,8 +275,14 @@ export class VisualizationObjectEffects {
 
                 // Add visualization Layers
                 _.each(visualizationLayers, visualizationLayer => {
+                  console.log(visualizationLayer);
                   this.store.dispatch(
-                    new AddVisualizationLayerAction(visualizationLayer)
+                    new AddVisualizationLayerAction({
+                      ...visualizationLayer,
+                      dataSelections: getSelectionDimensionsFromAnalytics(
+                        visualizationLayer.analytics
+                      )
+                    })
                   );
                 });
               } else if (
