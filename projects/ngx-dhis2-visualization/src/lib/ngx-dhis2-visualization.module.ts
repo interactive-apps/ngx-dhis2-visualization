@@ -19,12 +19,9 @@ import { MapModule } from './modules/map/map.module';
 @NgModule({
   imports: [
     CommonModule,
-    TranslateModule.forChild(),
+    TranslateModule.forRoot(),
     StoreModule.forFeature('visualization', reducers),
-    EffectsModule.forFeature([
-      VisualizationObjectEffects,
-      VisualizationLayerEffects
-    ]),
+    EffectsModule.forFeature([VisualizationObjectEffects, VisualizationLayerEffects]),
     ChartModule,
     TableModule,
     DictionaryModule,

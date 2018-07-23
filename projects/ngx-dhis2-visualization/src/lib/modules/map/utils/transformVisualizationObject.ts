@@ -11,7 +11,7 @@ export function transformVisualizationObject(visualizationConfig, visualizationL
   let analytics = {};
   let orgUnitGroupSet = {};
   let serverSideConfig = {};
-  const { id, name, subtitle, latitude, longitude, basemap, zoom, fullScreen } = visualizationConfig;
+  const { id, name, subtitle, latitude, longitude, basemap, zoom, fullScreen = false } = visualizationConfig;
   const mapConfiguration: MapConfiguration = {
     id,
     name,
@@ -26,7 +26,7 @@ export function transformVisualizationObject(visualizationConfig, visualizationL
   let layers: Layer[] = [];
 
   visualizationLayers.forEach(mapview => {
-    const settings = mapview.config || mapview.settings;
+    const settings = mapview.config || mapview.settings || mapview;
     const layer = {
       id: settings.id,
       name: settings.name,

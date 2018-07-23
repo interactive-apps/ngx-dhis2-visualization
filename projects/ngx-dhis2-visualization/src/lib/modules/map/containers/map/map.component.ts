@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, BehaviorSubject } from 'rxjs';
 import * as fromStore from '../../store';
@@ -12,8 +12,9 @@ import { VisualizationObject } from '../../models/visualization-object.model';
   styleUrls: ['./map.component.css'],
   templateUrl: './map.component.html'
 })
-export class MapComponent implements OnChanges {
+export class MapComponent implements OnInit {
   @Input() vizObject;
+  @Input() id;
   @Input() visualizationLayers: any;
   @Input() visualizationConfig: any;
   @Input() visualizationUiConfig: any;
@@ -26,30 +27,11 @@ export class MapComponent implements OnChanges {
     this.store.dispatch(new fromStore.AddContectPath());
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    const { vizObject } = changes;
+  ngOnInit() {
+    this.store.dispatch(new fromStore.InitiealizeVisualizationLegend(this.id));
 
-    if (vizObject) {
-      this.visualizationUiConfig = {
-        height: this.vizObject.details.cardHeight,
-        width: this.vizObject.details.cardWidth,
-        fullScreen: this.vizObject.details.fullScreen
-      };
-      const { details, layers, name, id } = this.vizObject;
-      this.visualizationLayers = [...layers];
-      this.visualizationConfig = { ...details, name, id };
-
-      // End of code to be deleted and use input;
-      this.componentId = id;
-      this.displayConfigurations = {
-        itemHeight: this.visualizationUiConfig.height,
-        mapWidth: '100%'
-      };
-      this.store.dispatch(new fromStore.InitiealizeVisualizationLegend(this.vizObject.id));
-
-      this.transformVisualizationObject(this.visualizationConfig, this.visualizationLayers);
-      this.visualizationObject$ = this.store.select(fromStore.getCurrentVisualizationObject(this.vizObject.id));
-    }
+    this.transformVisualizationObject(this.visualizationConfig, this.visualizationLayers);
+    this.visualizationObject$ = this.store.select(fromStore.getCurrentVisualizationObject(this.id));
   }
 
   getVisualizationObject() {
@@ -72,6 +54,8 @@ export class MapComponent implements OnChanges {
 
   transformVisualizationObject(visualizationConfig, visualizationLayers) {
     // TODO FIND A WAY TO GET GEO FEATURES HERE
+    console.log(visualizationConfig);
+    console.log(visualizationLayers);
     const { visObject } = fromUtils.transformVisualizationObject(visualizationConfig, visualizationLayers);
     this.visualizationObject = {
       ...this.visualizationObject,
