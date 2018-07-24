@@ -15,7 +15,6 @@ export class DataSelectionEffects {
   updatePe$ = this.actions$.ofType(dataSelectionAction.UPDATE_PE_SELECTION).pipe(
     map((action: dataSelectionAction.UpdatePESelection) => {
       const payload = action.payload;
-      console.log(payload);
     }),
     catchError(error => of(new visualizationObjectActions.UpdateVisualizationObjectFail(error)))
   );
@@ -24,7 +23,6 @@ export class DataSelectionEffects {
   updateDx$ = this.actions$.ofType(dataSelectionAction.UPDATE_DX_SELECTION).pipe(
     map((action: dataSelectionAction.UpdateDXSelection) => {
       const payload = action.payload;
-      console.log(payload);
     }),
     catchError(error => of(new visualizationObjectActions.UpdateVisualizationObjectFail(error)))
   );

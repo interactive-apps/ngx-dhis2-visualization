@@ -361,7 +361,7 @@ export class VisualizationObjectEffects {
       if (param.items.length) {
         dimensions.push(
           `${dimension}:${param.items
-            .map(item => item.dimensionItem)
+            .map(item => item.dimensionItem || item.id)
             .join(';')}`
         );
       } else {
@@ -370,6 +370,7 @@ export class VisualizationObjectEffects {
         }
       }
     });
+    console.log(dimensions);
     let url = `${layer.dataSelections.program.id}.json?stage=${
       layer.dataSelections.programStage.id
     }&${dimensions.join('&')}`;

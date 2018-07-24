@@ -44,6 +44,7 @@ export class VisualizationComponent implements OnInit, OnChanges {
   @Input() type: string;
   @Input() visualizationLayers: VisualizationLayer[];
   @Input() name: string;
+  @Input() isNewFavorite: boolean;
 
   private _visualizationInputs$: Subject<VisualizationInputs> = new Subject();
   visualizationObject$: Observable<Visualization>;

@@ -23,7 +23,6 @@ export function transformVisualizationObject(visualizationConfig, visualizationL
     fullScreen
   };
 
-  console.log(mapConfiguration);
   let layers: Layer[] = [];
 
   visualizationLayers.forEach(mapview => {

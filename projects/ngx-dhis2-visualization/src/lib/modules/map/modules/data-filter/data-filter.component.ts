@@ -436,7 +436,6 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   // action that will fire when the sorting of selected data is done
   transferDataSuccess(data, current) {
     if (data.dragData.id === current.id) {
-      console.log('Droping in the same area');
     } else {
       const number = this.getDataPosition(data.dragData.id) > this.getDataPosition(current.id) ? 0 : 1;
       this.deleteData(data.dragData);

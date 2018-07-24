@@ -1,4 +1,4 @@
-import { VisualizationConfig } from '../models';
+import { VisualizationConfig } from '../models/index';
 export function getStandardizedVisualizationConfig(
   visualizationItem: any
 ): VisualizationConfig {

@@ -3,6 +3,9 @@ export function getStandardizedAnalyticsObject(
   analyticsObject: any,
   preferNormalStructure: boolean = false
 ) {
+  if (analyticsObject && analyticsObject.count) {
+    return analyticsObject;
+  }
   const sanitizedAnalyticsObject: any = {
     headers: [],
     metaData: {
@@ -50,7 +53,7 @@ export function getStandardizedAnalyticsObject(
     }
   }
 
-  return sanitizedAnalyticsObject;
+  return analyticsObject ? sanitizedAnalyticsObject : null;
 }
 
 function getSanitizedAnalyticsMetadata(

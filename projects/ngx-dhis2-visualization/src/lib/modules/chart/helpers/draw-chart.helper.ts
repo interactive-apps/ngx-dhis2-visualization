@@ -58,7 +58,6 @@ export function drawChart(
       );
       break;
     case 'combined':
-      console.log('combined');
       break;
     default:
       chartObject = extendOtherChartOptions(
@@ -68,8 +67,6 @@ export function drawChart(
       );
       break;
   }
-
-  // console.log(analyticsObject, configuration);
   return chartObject;
 }
 

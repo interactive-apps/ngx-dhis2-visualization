@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import { getSplitedAnalytics } from './get-splited-analytics.helper';
 import { getSplitedFavorite } from './get-splited-favorite.helper';
-import { VisualizationLayer } from '../models';
+import { VisualizationLayer } from '../models/index';
 
 export function getSplitedVisualizationLayers(
   type: string,

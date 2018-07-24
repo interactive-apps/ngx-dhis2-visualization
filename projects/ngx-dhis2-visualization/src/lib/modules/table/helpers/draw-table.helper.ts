@@ -373,7 +373,7 @@ function getDataValueColor(legendClasses, value) {
       }
 
       // if (legendClass.startValue < value && legendClass.endValue >= value) {
-      //   console.log(legendClass.color);
+      
       // }
     });
   }

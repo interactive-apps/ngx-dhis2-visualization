@@ -260,7 +260,6 @@ export class OrgUnitFilterComponent implements OnInit, OnDestroy {
   }
 
   setType(type: string, e) {
-    console.log(type);
     e.stopPropagation();
     this.orgUnitModel.selectionMode = type;
     if (type !== 'orgUnit') {

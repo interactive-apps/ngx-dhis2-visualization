@@ -1,4 +1,7 @@
-import { VisualizationDataSelection, VisualizationLayout } from '../models';
+import {
+  VisualizationDataSelection,
+  VisualizationLayout
+} from '../models/index';
 import * as _ from 'lodash';
 
 export function getVisualizationLayout(

@@ -34,7 +34,6 @@ export class OrgUnitService {
             observer.complete();
           },
           error => {
-            console.log(error);
           }
         );
       }

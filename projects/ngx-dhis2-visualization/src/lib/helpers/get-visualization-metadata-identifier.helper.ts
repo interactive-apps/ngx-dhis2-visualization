@@ -1,4 +1,4 @@
-import { VisualizationDataSelection } from '../models';
+import { VisualizationDataSelection } from '../models/index';
 import * as _ from 'lodash';
 
 export function getVisualizationMetadataIdentifiers(

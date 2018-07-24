@@ -55,7 +55,9 @@ function generateCorrespondingFixedPeriodArray(relativePeriodArray) {
   let fixedPeriods = [];
   if (relativePeriodArray) {
     relativePeriodArray.forEach(relativePeriod => {
-      const newPeriods = getFixedPeriodArrayFromSingleRelativePeriod(relativePeriod);
+      const newPeriods = getFixedPeriodArrayFromSingleRelativePeriod(
+        relativePeriod
+      );
       fixedPeriods = [...fixedPeriods, ...newPeriods];
     });
   }
@@ -68,7 +70,9 @@ function generateCorrespondingFixedPeriodArray(relativePeriodArray) {
 /**
  This function return array of fixed periods from one relative period
  */
-function getFixedPeriodArrayFromSingleRelativePeriod(relativePeriod): Array<Object> {
+function getFixedPeriodArrayFromSingleRelativePeriod(
+  relativePeriod
+): Array<Object> {
   const periodCategory = [
     '_MONTH',
     '_BIMONTH',
@@ -106,7 +110,6 @@ function getFixedPeriodArrayFromSingleRelativePeriod(relativePeriod): Array<Obje
         getPeriodCounts(periodTenses, relativePeriod),
         getPeriodTense(periodTenses, relativePeriod)
       );
-      console.log(fixedPeriods);
     }
   }
   return fixedPeriods;
@@ -154,7 +157,6 @@ function getExecutingPeriodFunctions() {
     _QUARTER: (template, counts, tense) => {
       const currentQuarter = getThisQuarter();
       const lastNQuarters = getPeriods(currentQuarter, tense, counts, 4);
-      console.log('currentQuarter', currentQuarter);
       let currentYear = currentDate.getFullYear();
       const quarters = [];
       let endOfTheYear = false;
@@ -460,11 +462,17 @@ function getThisWeek(d?) {
   d = d || new Date();
   d.setHours(0, 0, 0, 0);
 
-  d.setDate(d.getDate() + 3 - (d.getDay() + 6) % 7);
+  d.setDate(d.getDate() + 3 - ((d.getDay() + 6) % 7));
 
   const week = new Date(d.getFullYear(), 0, 4);
   const thisWeek =
-    1 + Math.round(((d.getTime() - week.getTime()) / 86400000 - 3 + (week.getDay() + 6) % 7) / 7);
+    1 +
+    Math.round(
+      ((d.getTime() - week.getTime()) / 86400000 -
+        3 +
+        ((week.getDay() + 6) % 7)) /
+        7
+    );
 
   return thisWeek;
 }

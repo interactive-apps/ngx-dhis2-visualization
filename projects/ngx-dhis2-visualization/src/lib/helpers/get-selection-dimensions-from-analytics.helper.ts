@@ -1,4 +1,4 @@
-import { VisualizationSelectionDimension } from '../models';
+import { VisualizationSelectionDimension } from '../models/index';
 import * as _ from 'lodash';
 
 export function getSelectionDimensionsFromAnalytics(

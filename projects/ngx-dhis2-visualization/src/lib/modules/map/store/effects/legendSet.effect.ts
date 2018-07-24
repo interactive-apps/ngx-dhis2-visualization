@@ -94,7 +94,6 @@ export class LegendSetEffects {
   @Effect({ dispatch: false })
   changeLayerVisibility$ = this.actions$.ofType(legendSetAction.CHANGE_LEGEND_SET_LAYER_VISIBILITY).pipe(
     map((action: legendSetAction.ChangeLegendSetLayerVisibility) => {
-      console.log(action.payload);
     }),
     catchError(error => of(new legendSetAction.UpdateLegendSetFail(error)))
   );

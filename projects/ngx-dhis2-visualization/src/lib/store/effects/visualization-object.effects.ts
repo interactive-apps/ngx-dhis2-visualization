@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import * as _ from 'lodash';
 import { Observable, of } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -43,13 +43,15 @@ import {
   getStandardizedAnalyticsObject,
   getSelectionDimensionsFromAnalytics
 } from '../../helpers';
+import { SystemInfoService } from '@hisptz/ngx-dhis2-http-client';
 
 @Injectable()
 export class VisualizationObjectEffects {
   constructor(
     private actions$: Actions,
     private store: Store<VisualizationState>,
-    private favoriteService: FavoriteService
+    private favoriteService: FavoriteService,
+    private systemInfoService: SystemInfoService
   ) {}
 
   @Effect({ dispatch: false })
@@ -366,10 +368,15 @@ export class VisualizationObjectEffects {
     );
 
   @Effect({ dispatch: false })
-  loadFavoriteSuccess$: Observable<any> = this.actions$
-    .ofType(VisualizationObjectActionTypes.LOAD_VISUALIZATION_FAVORITE_SUCCESS)
-    .pipe(
-      tap((action: LoadVisualizationFavoriteSuccessAction) => {
+  loadFavoriteSuccess$: Observable<any> = this.actions$.pipe(
+    ofType(VisualizationObjectActionTypes.LOAD_VISUALIZATION_FAVORITE_SUCCESS),
+    withLatestFrom(this.systemInfoService.getSystemInfo()),
+    tap(
+      ([action, systemInfo]: [LoadVisualizationFavoriteSuccessAction, any]) => {
+        const spatialSupport =
+          systemInfo && systemInfo.databaseInfo
+            ? systemInfo.databaseInfo.spatialSupport
+            : false;
         const visualizationFavoriteOptions =
           action.visualization && action.visualization.favorite
             ? action.visualization.favorite
@@ -407,6 +414,7 @@ export class VisualizationObjectEffects {
                   analytics: null,
                   config: {
                     ...favoriteLayer,
+                    spatialSupport,
                     visualizationType: action.visualization.type
                   }
                 };
@@ -493,6 +501,7 @@ export class VisualizationObjectEffects {
             })
           );
         }
-      })
-    );
+      }
+    )
+  );
 }

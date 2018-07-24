@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { VisualizationDataSelection } from '../models';
+import { VisualizationDataSelection } from '../models/index';
 
 // TODO Find best standard for config structure so that layerType can be obtained direct from config object
 export function getAnalyticsUrl(
@@ -101,7 +101,7 @@ function getEventAnalyticsUrl(
       ? getEventAnalyticsUrlSection(config) +
         getProgramParameters(config) +
         getEventAnalyticsStartAndEndDateSection(config) +
-        flattenDimensions(dataSelections) +
+        flattenedDimensionString +
         getAnalyticsUrlOptions(config, layerType)
       : '';
   return analyticsUrlFields !== ''
@@ -127,7 +127,7 @@ function getEventAnalyticsUrlSection(config) {
       return config.dataType === 'AGGREGATED_VALUES' ? 'aggregate/' : 'query/';
     default:
       return !config.aggregate
-        ? config.eventClustering
+        ? config.eventClustering && config.spatialSupport
           ? 'count/'
           : 'query/'
         : 'aggregate/';
