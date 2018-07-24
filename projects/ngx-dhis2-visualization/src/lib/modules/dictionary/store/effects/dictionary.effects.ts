@@ -1,101 +1,118 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect } from '@ngrx/effects';
-import * as _ from 'lodash';
-import { mergeMap, map, tap, withLatestFrom } from 'rxjs/internal/operators';
-import { Observable, from, forkJoin } from 'rxjs';
-import { Store } from '@ngrx/store';
 import { DatePipe } from '@angular/common';
+import { Store } from '@ngrx/store';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 
-import * as DictionaryActions from '../actions/dictionary.actions';
-import * as fromDictionary from '../reducers';
+import * as _ from 'lodash';
+import { mergeMap, map, tap } from 'rxjs/operators';
+import { Observable, from, forkJoin } from 'rxjs';
+
 import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
+import { DictionaryState } from '../reducers/dictionary.reducer';
+
+import {
+  DictionaryActionTypes,
+  InitializeDictionaryMetadataAction,
+  AddDictionaryMetadataListAction,
+  UpdateDictionaryMetadataAction
+} from '../actions/dictionary.actions';
+import { getDictionaryList } from '../selectors/dictionary.selectors';
 
 @Injectable()
 export class DictionaryEffects {
   constructor(
     private actions$: Actions,
-    private store: Store<fromDictionary.State>,
+    private store: Store<DictionaryState>,
     private httpClient: NgxDhis2HttpClientService,
     private datePipe: DatePipe
   ) {}
 
   @Effect({ dispatch: false })
-  initializeDictionary$: Observable<any> = this.actions$
-    .ofType<DictionaryActions.InitializeAction>(
-      DictionaryActions.DictionaryActions.INITIALIZE
-    )
-    .pipe(
-      withLatestFrom(this.store),
-      map(([action, state]: [any, fromDictionary.State]) =>
-        _.filter(
-          action.payload,
-          identifier => !_.find(state.dictionary, ['id', identifier])
-        )
-      ),
-      tap(identifiers => {
-        /**
-         * Add incoming items to the dictionary list
-         */
-        this.store.dispatch(new DictionaryActions.AddAction(identifiers));
-
-        /**
-         * Identify corresponding dictionary items
-         */
-        from(identifiers)
-          .pipe(
-            mergeMap(identifier =>
-              this.httpClient.get(
-                `identifiableObjects/${identifier}.json`,
-                true
-              )
+  initializeDictionary$: Observable<any> = this.actions$.pipe(
+    ofType(DictionaryActionTypes.InitializeDictionaryMetadata),
+    mergeMap((action: InitializeDictionaryMetadataAction) =>
+      this.store
+        .select(getDictionaryList(action.dictionaryMetadataIdentifiers))
+        .pipe(
+          map((dictionaryList: any[]) =>
+            _.filter(
+              action.dictionaryMetadataIdentifiers,
+              metadataId => !_.find(dictionaryList, ['id', metadataId])
             )
           )
-          .subscribe((metadata: any) => {
-            this.store.dispatch(
-              new DictionaryActions.UpdateAction({
-                id: metadata.id,
-                name: metadata.name,
-                progress: {
-                  loading: true,
-                  loadingSucceeded: true,
-                  loadingFailed: false
-                }
-              })
-            );
+        )
+    ),
+    tap(identifiers => {
+      /**
+       * Add incoming items to the dictionary list
+       */
+      this.store.dispatch(
+        new AddDictionaryMetadataListAction(
+          _.map(identifiers, id => {
+            return {
+              id,
+              name: '',
+              description: '',
+              progress: {
+                loading: true,
+                loadingSucceeded: false,
+                loadingFailed: false
+              }
+            };
+          })
+        )
+      );
+      /**
+       * Identify corresponding dictionary items
+       */
+      from(identifiers)
+        .pipe(
+          mergeMap(identifier =>
+            this.httpClient.get(`identifiableObjects/${identifier}.json`, true)
+          )
+        )
+        .subscribe((metadata: any) => {
+          this.store.dispatch(
+            new UpdateDictionaryMetadataAction(metadata.id, {
+              name: metadata.name,
+              progress: {
+                loading: true,
+                loadingSucceeded: true,
+                loadingFailed: false
+              }
+            })
+          );
 
-            if (metadata.href && metadata.href.indexOf('indicator') !== -1) {
-              const indicatorUrl =
-                'indicators/' +
-                metadata.id +
-                '.json?fields=:all,displayName,id,name,numeratorDescription,' +
-                'denominatorDescription,denominator,numerator,annualized,decimals,indicatorType[name],user[name],' +
-                'attributeValues[value,attribute[name]],indicatorGroups[name,indicators~size],legendSet[name,symbolizer,' +
-                'legends~size],dataSets[name]';
-              this.getIndicatorInfo(indicatorUrl, metadata.id);
-            } else if (
-              metadata.href &&
-              metadata.href.indexOf('dataElement') !== -1
-            ) {
-              const dataElementUrl =
-                'dataElements/' +
-                metadata.id +
-                '.json?fields=:all,id,name,aggregationType,displayName,' +
-                'categoryCombo[id,name,categories[id,name,categoryOptions[id,name]]],dataSets[:all,!compulsoryDataElementOperands]';
-              this.getDataElementInfo(dataElementUrl, metadata.id);
-            } else if (
-              metadata.href &&
-              metadata.href.indexOf('dataSet') !== -1
-            ) {
-              const dataSetUrl =
-                'dataSets/' +
-                metadata.id +
-                '.json?fields=:all,user[:all],id,name,periodType,shortName,' +
-                'categoryCombo[id,name,categories[id,name,categoryOptions[id,name]]]';
-              this.getDataSetInfo(dataSetUrl, metadata.id);
-            }
-          });
-      })
-    );
+          if (metadata.href && metadata.href.indexOf('indicator') !== -1) {
+            const indicatorUrl =
+              'indicators/' +
+              metadata.id +
+              '.json?fields=:all,displayName,id,name,numeratorDescription,' +
+              'denominatorDescription,denominator,numerator,annualized,decimals,indicatorType[name],user[name],' +
+              'attributeValues[value,attribute[name]],indicatorGroups[name,indicators~size],legendSet[name,symbolizer,' +
+              'legends~size],dataSets[name]';
+            this.getIndicatorInfo(indicatorUrl, metadata.id);
+          } else if (
+            metadata.href &&
+            metadata.href.indexOf('dataElement') !== -1
+          ) {
+            const dataElementUrl =
+              'dataElements/' +
+              metadata.id +
+              '.json?fields=:all,id,name,aggregationType,displayName,' +
+              'categoryCombo[id,name,categories[id,name,categoryOptions[id,name]]],dataSets[:all,!compulsoryDataElementOperands]';
+            this.getDataElementInfo(dataElementUrl, metadata.id);
+          } else if (metadata.href && metadata.href.indexOf('dataSet') !== -1) {
+            const dataSetUrl =
+              'dataSets/' +
+              metadata.id +
+              '.json?fields=:all,user[:all],id,name,periodType,shortName,' +
+              'categoryCombo[id,name,categories[id,name,categoryOptions[id,name]]]';
+            this.getDataSetInfo(dataSetUrl, metadata.id);
+          }
+        });
+    })
+  );
 
   getDataSetInfo(dataSetUrl: string, dataSetId: string) {
     this.httpClient.get(`${dataSetUrl}`, true).subscribe((dataSet: any) => {
@@ -164,8 +181,7 @@ export class DictionaryEffects {
       dataSetDescription += '</p>';
 
       this.store.dispatch(
-        new DictionaryActions.UpdateAction({
-          id: dataSetId,
+        new UpdateDictionaryMetadataAction(dataSetId, {
           description: dataSetDescription,
           progress: {
             loading: false,
@@ -315,8 +331,7 @@ export class DictionaryEffects {
           }
 
           this.store.dispatch(
-            new DictionaryActions.UpdateAction({
-              id: dataElementId,
+            new UpdateDictionaryMetadataAction(dataElementId, {
               description: dataElementDescription,
               progress: {
                 loading: false,
@@ -361,8 +376,7 @@ export class DictionaryEffects {
       }
 
       this.store.dispatch(
-        new DictionaryActions.UpdateAction({
-          id: indicatorId,
+        new UpdateDictionaryMetadataAction(indicatorId, {
           description: indicatorDescription,
           progress: {
             loading: true,
@@ -426,8 +440,7 @@ export class DictionaryEffects {
         indicatorDescription += `</p>`;
 
         this.store.dispatch(
-          new DictionaryActions.UpdateAction({
-            id: indicatorId,
+          new UpdateDictionaryMetadataAction(indicatorId, {
             description: indicatorDescription,
             progress: {
               loading: true,
@@ -576,8 +589,7 @@ export class DictionaryEffects {
           }
 
           this.store.dispatch(
-            new DictionaryActions.UpdateAction({
-              id: indicatorId,
+            new UpdateDictionaryMetadataAction(indicatorId, {
               description: indicatorDescription,
               progress: {
                 loading: false,

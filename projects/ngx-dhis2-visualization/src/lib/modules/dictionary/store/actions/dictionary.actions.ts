@@ -1,24 +1,31 @@
 import { Action } from '@ngrx/store';
+import { MetadataDictionary } from '../../models/dictionary';
 
-export enum DictionaryActions {
-  INITIALIZE = '[Dictionary] initialize incoming metadata',
-  UPDATE = '[Dictionary] update metadata dictionary list',
-  ADD = '[Dictionary] add initial items to dictionary list'
+export enum DictionaryActionTypes {
+  InitializeDictionaryMetadata = '[Dictionary] initialize incoming metadata',
+  AddDictionaryMetadataList = '[Dictionary] add dictionary metadata list',
+  UpdateDictionaryMetadata = '[Dictionary] update dictionary metadata list'
 }
 
-export class InitializeAction implements Action {
-  readonly type = DictionaryActions.INITIALIZE;
-  constructor(public payload: any[]) {}
+export class InitializeDictionaryMetadataAction implements Action {
+  readonly type = DictionaryActionTypes.InitializeDictionaryMetadata;
+  constructor(public dictionaryMetadataIdentifiers: Array<string>) {}
 }
 
-export class AddAction implements Action {
-  readonly type = DictionaryActions.ADD;
-  constructor(public payload: Array<string>) {}
+export class AddDictionaryMetadataListAction implements Action {
+  readonly type = DictionaryActionTypes.AddDictionaryMetadataList;
+  constructor(public dictionaryMetadataList: MetadataDictionary[]) {}
 }
 
-export class UpdateAction implements Action {
-  readonly type = DictionaryActions.UPDATE;
-  constructor(public payload: any) {}
+export class UpdateDictionaryMetadataAction implements Action {
+  readonly type = DictionaryActionTypes.UpdateDictionaryMetadata;
+  constructor(
+    public dictionaryMetadataId: string,
+    public changes: Partial<MetadataDictionary>
+  ) {}
 }
 
-export type DictionaryAction = InitializeAction | UpdateAction | AddAction;
+export type DictionaryActions =
+  | InitializeDictionaryMetadataAction
+  | AddDictionaryMetadataListAction
+  | UpdateDictionaryMetadataAction;

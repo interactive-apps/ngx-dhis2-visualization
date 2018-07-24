@@ -1,51 +1,44 @@
-import * as dictionary from '../actions/dictionary.actions';
+import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
+import { createFeatureSelector, MemoizedSelector } from '@ngrx/store';
+import { Dictionary } from '@ngrx/entity/src/models';
+import {
+  DictionaryActions,
+  DictionaryActionTypes
+} from '../actions/dictionary.actions';
 import * as _ from 'lodash';
-import { Dictionary } from '../../models/dictionary';
+import { MetadataDictionary } from '../../models/dictionary';
+
+export interface DictionaryState extends EntityState<MetadataDictionary> {}
+
+export const dictionaryAdapter: EntityAdapter<
+  MetadataDictionary
+> = createEntityAdapter<MetadataDictionary>();
+
+const initialState: DictionaryState = dictionaryAdapter.getInitialState({});
 
 export function dictionaryReducer(
-  state: Dictionary[] = [],
-  action: dictionary.DictionaryAction
-) {
+  state: DictionaryState = initialState,
+  action: DictionaryActions
+): DictionaryState {
   switch (action.type) {
-    case dictionary.DictionaryActions.ADD:
-      return [
-        ...state,
-        ..._.map(action.payload, id => {
-            return {
-              id,
-              name: undefined,
-              description: undefined,
-              progress: {
-                loading: true,
-                loadingSucceeded: false,
-                loadingFailed: false
-              }
-            };
-          })
-          .filter(
-            dictionaryObject => !_.find(state, ['id', dictionaryObject.id])
-          )
-      ];
-
-    case dictionary.DictionaryActions.UPDATE:
-      const correspondingDictionary: Dictionary = _.find(state, [
-        'id',
-        action.payload.id
-      ]);
-      const dictionaryIndex = _.findIndex(state, correspondingDictionary);
-
-      return dictionaryIndex !== -1
-        ? [
-            ...state.slice(0, dictionaryIndex),
-            {
-              ...correspondingDictionary,
-              ...action.payload,
-              progress: { ...action.payload.progress }
-            },
-            ...state.slice(dictionaryIndex + 1)
-          ]
-        : [...state];
-    default:
-      return state;
+    case DictionaryActionTypes.AddDictionaryMetadataList: {
+      return dictionaryAdapter.addMany(action.dictionaryMetadataList, state);
+    }
+    case DictionaryActionTypes.UpdateDictionaryMetadata: {
+      return dictionaryAdapter.updateOne(
+        { id: action.dictionaryMetadataId, changes: action.changes },
+        state
+      );
+    }
   }
+
+  return state;
 }
+
+export const getDictionaryState = createFeatureSelector<DictionaryState>(
+  'dictionary'
+);
+
+export const {
+  selectEntities: getDictionaryMetadataEntities
+} = dictionaryAdapter.getSelectors(getDictionaryState);

@@ -1,4 +1,4 @@
-export interface Dictionary {
+export interface MetadataDictionary {
   id: string;
   name: string;
   description: string;
