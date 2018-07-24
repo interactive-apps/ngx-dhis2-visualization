@@ -30,36 +30,20 @@ export class MapComponent implements OnInit {
   ngOnInit() {
     this.store.dispatch(new fromStore.InitiealizeVisualizationLegend(this.id));
 
-    this.transformVisualizationObject(this.visualizationConfig, this.visualizationLayers);
+    this.transformVisualizationObject(this.visualizationConfig, this.visualizationLayers, this.id);
     this.visualizationObject$ = this.store.select(fromStore.getCurrentVisualizationObject(this.id));
   }
 
   getVisualizationObject() {
-    this.visualizationObject$ = this.store.select(fromStore.getCurrentVisualizationObject(this.componentId));
+    this.visualizationObject$ = this.store.select(fromStore.getCurrentVisualizationObject(this.id));
   }
 
-  transhformFavourites(favourite) {
-    const { visObject } = fromUtils.transformFavourites(favourite);
-    this.visualizationObject = {
-      ...this.visualizationObject,
-      componentId: this.componentId,
-      ...visObject
-    };
-
-    if (visObject['layers'].length) {
-      this.store.dispatch(new fromStore.CreateVisualizationObject(this.visualizationObject));
-      this.getVisualizationObject();
-    }
-  }
-
-  transformVisualizationObject(visualizationConfig, visualizationLayers) {
+  transformVisualizationObject(visualizationConfig, visualizationLayers, id) {
     // TODO FIND A WAY TO GET GEO FEATURES HERE
-    console.log(visualizationConfig);
-    console.log(visualizationLayers);
-    const { visObject } = fromUtils.transformVisualizationObject(visualizationConfig, visualizationLayers);
+    const { visObject } = fromUtils.transformVisualizationObject(visualizationConfig, visualizationLayers, id);
     this.visualizationObject = {
       ...this.visualizationObject,
-      componentId: this.componentId,
+      componentId: this.id,
       ...visObject
     };
     this.store.dispatch(new fromStore.AddVisualizationObjectComplete(this.visualizationObject));

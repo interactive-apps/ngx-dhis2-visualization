@@ -1,11 +1,11 @@
 import * as _ from 'lodash';
-import { VisualizationObject } from '../models/visualization-object.model';
+import { getOrgUnitsFromRows, getDataItemsFromColumns, getPeriodFromFilters } from './analytics';
 import { MapConfiguration } from '../models/map-configuration.model';
 import { Layer } from '../models/layer.model';
 import { getBboxBounds } from './layers';
 import { colorBrewer, getColorScale } from './colorBrewer';
 
-export function transformVisualizationObject(visualizationConfig, visualizationLayers) {
+export function transformVisualizationObject(visualizationConfig, visualizationLayers, vizId) {
   let visObject = {};
   let geofeatures = {};
   let analytics = {};
@@ -13,7 +13,7 @@ export function transformVisualizationObject(visualizationConfig, visualizationL
   let serverSideConfig = {};
   const { id, name, subtitle, latitude, longitude, basemap, zoom, fullScreen = false } = visualizationConfig;
   const mapConfiguration: MapConfiguration = {
-    id,
+    id: id || vizId,
     name,
     subtitle,
     latitude,
@@ -23,6 +23,7 @@ export function transformVisualizationObject(visualizationConfig, visualizationL
     fullScreen
   };
 
+  console.log(mapConfiguration);
   let layers: Layer[] = [];
 
   visualizationLayers.forEach(mapview => {
@@ -72,22 +73,29 @@ export function transformVisualizationObject(visualizationConfig, visualizationL
       'hideSubtitle'
     ]);
 
-    const dataSelections = _.pick(settings, [
-      'config',
-      'parentLevel',
-      'completedOnly',
-      'translations',
-      'interpretations',
-      'program',
-      'programStage',
-      'columns',
-      'rows',
-      'filters',
-      'aggregationType',
-      'organisationUnitGroupSet',
-      'startDate',
-      'endDate'
-    ]);
+    const rows = (mapview.dataSelections || []).filter(dt => dt.dimension == 'ou');
+    const columns = (mapview.dataSelections || []).filter(dt => dt.dimension == 'dx');
+    const filters = (mapview.dataSelections || []).filter(dt => dt.dimension == 'pe');
+    const dataSelections = Object.assign(
+      {},
+      _.pick(settings, [
+        'config',
+        'parentLevel',
+        'completedOnly',
+        'translations',
+        'interpretations',
+        'program',
+        'programStage',
+        'columns',
+        'rows',
+        'filters',
+        'aggregationType',
+        'organisationUnitGroupSet',
+        'startDate',
+        'endDate'
+      ]),
+      { rows, columns, filters }
+    );
 
     const legendSet = settings.legendSet;
 
