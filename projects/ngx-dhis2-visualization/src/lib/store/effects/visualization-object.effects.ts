@@ -275,7 +275,6 @@ export class VisualizationObjectEffects {
 
                 // Add visualization Layers
                 _.each(visualizationLayers, visualizationLayer => {
-                  console.log(visualizationLayer);
                   this.store.dispatch(
                     new AddVisualizationLayerAction({
                       ...visualizationLayer,
