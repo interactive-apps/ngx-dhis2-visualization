@@ -6,6 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { NgxDhis2ChartModule } from '@hisptz/ngx-dhis2-chart';
 import { NgxDhis2TableModule } from '@hisptz/ngx-dhis2-table';
+import { NgxDhis2DictionaryModule } from '@hisptz/ngx-dhis2-dictionary';
 
 // store
 import { reducers } from './store/reducers';
@@ -14,7 +15,6 @@ import { components } from './components';
 import { containers } from './containers';
 import { VisualizationObjectEffects } from './store/effects/visualization-object.effects';
 import { VisualizationLayerEffects } from './store/effects/visualization-layer.effects';
-import { DictionaryModule } from './modules/dictionary/dictionary.module';
 import { MapModule } from './modules/map/map.module';
 
 @NgModule({
@@ -28,7 +28,7 @@ import { MapModule } from './modules/map/map.module';
     ]),
     NgxDhis2ChartModule,
     NgxDhis2TableModule,
-    DictionaryModule,
+    NgxDhis2DictionaryModule,
     MapModule
   ],
   declarations: [...pipes, ...components, ...containers],

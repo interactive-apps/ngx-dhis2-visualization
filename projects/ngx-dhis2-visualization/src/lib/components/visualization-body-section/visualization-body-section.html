@@ -19,7 +19,7 @@
 
   <!--info/dictionary visualization-->
   <div class="dictionary-visualization-block" *ngIf="visualizationConfig.currentType === 'INFO'">
-    <dictionary-list [visualizationLayers]="visualizationLayers"></dictionary-list>
+    <ngx-dhis2-dictionary-list [metadataIdentifiers]="metadataIdentifiers"></ngx-dhis2-dictionary-list>
   </div>
   <!--end of info/dictionary visualization-->
 
