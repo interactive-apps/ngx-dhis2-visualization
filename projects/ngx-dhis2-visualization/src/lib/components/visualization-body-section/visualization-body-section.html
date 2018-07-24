@@ -1,13 +1,13 @@
 <div class="visualization-body-section-container">
   <!--chart visualization-->
   <div class="chart-visualization-block" *ngIf="visualizationConfig.currentType === 'CHART'">
-    <chart-list [visualizationId]="id" [visualizationLayers]="visualizationLayers" [chartHeight]="visualizationUiConfig.height"></chart-list>
+    <ngx-dhis2-chart-list [visualizationId]="id" [visualizationLayers]="visualizationLayers" [chartHeight]="visualizationUiConfig.height"></ngx-dhis2-chart-list>
   </div>
   <!--end of chart visualization-->
 
   <!--table visualization-->
   <div class="chart-visualization-block" *ngIf="visualizationConfig.currentType === 'TABLE'">
-    <table-list [visualizationLayers]="visualizationLayers" [visualizationType]="visualizationConfig.type"></table-list>
+    <ngx-dhis2-table-list [visualizationLayers]="visualizationLayers" [visualizationType]="visualizationConfig.type"></ngx-dhis2-table-list>
   </div>
   <!--end of table visualization-->
 

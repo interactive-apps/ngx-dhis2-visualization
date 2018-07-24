@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build-lib": "ng build --prod ngx-dhis2-visualization",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -20,7 +21,9 @@
     "@angular/platform-browser": "^6.0.7",
     "@angular/platform-browser-dynamic": "^6.0.7",
     "@angular/router": "^6.0.7",
+    "@hisptz/ngx-dhis2-chart": "^1.0.0",
     "@hisptz/ngx-dhis2-http-client": "^1.0.2",
+    "@hisptz/ngx-dhis2-table": "^1.0.0",
     "@mapbox/geojson-area": "^0.2.2",
     "@ngrx/effects": "^6.0.0-beta.3",
     "@ngrx/entity": "^6.0.0-beta.3",

@@ -33,6 +33,8 @@
     "leaflet.markercluster": "^1.3.0",
     "lodash": "^4.17.4",
     "@hisptz/ngx-dhis2-http-client": "^1.0.2",
+    "@hisptz/ngx-dhis2-chart": "^1.0.0",
+    "@hisptz/ngx-dhis2-table": "^1.0.0",
     "@ngx-translate/core": "^10.0.2",
     "@ngx-translate/http-loader": "^3.0.1"
   }

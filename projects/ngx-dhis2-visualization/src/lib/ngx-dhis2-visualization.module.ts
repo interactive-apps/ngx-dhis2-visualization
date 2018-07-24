@@ -4,6 +4,9 @@ import { EffectsModule } from '@ngrx/effects';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 
+import { NgxDhis2ChartModule } from '@hisptz/ngx-dhis2-chart';
+import { NgxDhis2TableModule } from '@hisptz/ngx-dhis2-table';
+
 // store
 import { reducers } from './store/reducers';
 import { pipes } from './pipes';
@@ -11,8 +14,6 @@ import { components } from './components';
 import { containers } from './containers';
 import { VisualizationObjectEffects } from './store/effects/visualization-object.effects';
 import { VisualizationLayerEffects } from './store/effects/visualization-layer.effects';
-import { ChartModule } from './modules/chart/chart.module';
-import { TableModule } from './modules/table/table.module';
 import { DictionaryModule } from './modules/dictionary/dictionary.module';
 import { MapModule } from './modules/map/map.module';
 
@@ -25,8 +26,8 @@ import { MapModule } from './modules/map/map.module';
       VisualizationObjectEffects,
       VisualizationLayerEffects
     ]),
-    ChartModule,
-    TableModule,
+    NgxDhis2ChartModule,
+    NgxDhis2TableModule,
     DictionaryModule,
     MapModule
   ],
