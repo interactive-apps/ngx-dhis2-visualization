@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
 
 import { getFavoriteUrl } from '../helpers';
-import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
 
 @Injectable({ providedIn: 'root' })
 export class FavoriteService {

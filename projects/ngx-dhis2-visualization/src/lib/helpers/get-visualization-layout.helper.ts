@@ -1,21 +1,35 @@
-import { VisualizationDataSelection } from '../models/visualization-data-selection.model';
+import {
+  VisualizationDataSelection,
+  VisualizationLayout
+} from '../models/index';
 import * as _ from 'lodash';
-import { VisualizationLayout } from '../models/visualization-layout.model';
 
-export function getVisualizationLayout(dataSelections: VisualizationDataSelection[]): VisualizationLayout {
+export function getVisualizationLayout(
+  dataSelections: VisualizationDataSelection[]
+): VisualizationLayout {
   if (!dataSelections) {
     return null;
   }
-  const groupedLayout = _.groupBy(_.map(dataSelections, dataSelection => {
-    return {dimension: dataSelection.dimension, layout: dataSelection.layout};
-  }), 'layout');
+  const groupedLayout = _.groupBy(
+    _.map(dataSelections, dataSelection => {
+      return {
+        dimension: dataSelection.dimension,
+        layout: dataSelection.layout
+      };
+    }),
+    'layout'
+  );
 
   return getStandardizedLayout(groupedLayout);
 }
 
 function getStandardizedLayout(layoutObject: any): VisualizationLayout {
   const layoutKeys = _.keys(layoutObject);
-  const newLayout: VisualizationLayout = {rows: ['dx'], columns: ['ou'], filters: []};
+  const newLayout: VisualizationLayout = {
+    rows: ['dx'],
+    columns: ['ou'],
+    filters: []
+  };
   _.each(layoutKeys, layoutKey => {
     const layouts = layoutObject[layoutKey];
     newLayout[layoutKey] = _.map(layouts, layout => layout.dimension);

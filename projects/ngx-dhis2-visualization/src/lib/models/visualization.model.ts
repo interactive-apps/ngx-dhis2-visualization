@@ -12,5 +12,5 @@ export interface Visualization {
   visualizationConfigId: string;
   uiConfigId: string;
   progress?: VisualizationProgress;
-  layers: Array<string>
+  layers: Array<string>;
 }

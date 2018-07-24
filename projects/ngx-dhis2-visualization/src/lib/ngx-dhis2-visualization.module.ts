@@ -2,40 +2,36 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
-import { containers } from './containers/index';
-import { pipes } from './pipes/index';
-import { components } from './components/index';
-import { effects, reducers } from './store/index';
-import { services } from './services/index';
-import { DictionaryModule } from './modules/index';
-import { ChartModule } from './modules/chart/chart.module';
-import { TableModule } from './modules/table/table.module';
+import { NgxDhis2ChartModule } from '@hisptz/ngx-dhis2-chart';
+import { NgxDhis2TableModule } from '@hisptz/ngx-dhis2-table';
+
+// store
+import { reducers } from './store/reducers';
+import { pipes } from './pipes';
+import { components } from './components';
+import { containers } from './containers';
+import { VisualizationObjectEffects } from './store/effects/visualization-object.effects';
+import { VisualizationLayerEffects } from './store/effects/visualization-layer.effects';
+import { DictionaryModule } from './modules/dictionary/dictionary.module';
+import { MapModule } from './modules/map/map.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    DictionaryModule.forChild(),
-    ChartModule,
-    TableModule,
+    TranslateModule.forRoot(),
     StoreModule.forFeature('visualization', reducers),
-    EffectsModule.forFeature(effects)
+    EffectsModule.forFeature([
+      VisualizationObjectEffects,
+      VisualizationLayerEffects
+    ]),
+    NgxDhis2ChartModule,
+    NgxDhis2TableModule,
+    DictionaryModule,
+    MapModule
   ],
-  declarations: [...containers, ...components, ...pipes],
+  declarations: [...pipes, ...components, ...containers],
   exports: [...containers]
 })
-export class NgxDhis2VisualizationModule {
-  public static forRoot(): ModuleWithProviders {
-    return {
-      ngModule: NgxDhis2VisualizationModule,
-      providers: [...services]
-    };
-  }
-
-  public static forChild(): ModuleWithProviders {
-    return {
-      ngModule: NgxDhis2VisualizationModule,
-      providers: [...services]
-    };
-  }
-}
+export class NgxDhis2VisualizationModule {}

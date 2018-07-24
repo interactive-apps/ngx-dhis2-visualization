@@ -12,88 +12,93 @@ import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
 
 @Injectable()
 export class DictionaryEffects {
-  constructor(private actions$: Actions,
+  constructor(
+    private actions$: Actions,
     private store: Store<fromDictionary.State>,
     private httpClient: NgxDhis2HttpClientService,
-    private datePipe: DatePipe) {
-  }
+    private datePipe: DatePipe
+  ) {}
 
-  @Effect({dispatch: false})
-  initializeDictionary$: Observable<any> = this.actions$.ofType<DictionaryActions.InitializeAction>(
-    DictionaryActions.DictionaryActions.INITIALIZE
-  ).pipe(
-    withLatestFrom(this.store),
-    map(([action, state]: [any, fromDictionary.State]) =>
-      _.filter(
-        action.payload,
-        identifier => !_.find(state.dictionary, ['id', identifier])
-      )
-    ),
-    tap(identifiers => {
-      /**
-       * Add incoming items to the dictionary list
-       */
-      this.store.dispatch(new DictionaryActions.AddAction(identifiers));
-
-      /**
-       * Identify corresponding dictionary items
-       */
-      from(identifiers).pipe(
-        mergeMap(identifier =>
-          this.httpClient.get(
-            `/api/identifiableObjects/${identifier}.json`,
-            true
-          )
+  @Effect({ dispatch: false })
+  initializeDictionary$: Observable<any> = this.actions$
+    .ofType<DictionaryActions.InitializeAction>(
+      DictionaryActions.DictionaryActions.INITIALIZE
+    )
+    .pipe(
+      withLatestFrom(this.store),
+      map(([action, state]: [any, fromDictionary.State]) =>
+        _.filter(
+          action.payload,
+          identifier => !_.find(state.dictionary, ['id', identifier])
         )
-      ).subscribe((metadata: any) => {
-        this.store.dispatch(
-          new DictionaryActions.UpdateAction({
-            id: metadata.id,
-            name: metadata.name,
-            progress: {
-              loading: true,
-              loadingSucceeded: true,
-              loadingFailed: false
-            }
-          })
-        );
+      ),
+      tap(identifiers => {
+        /**
+         * Add incoming items to the dictionary list
+         */
+        this.store.dispatch(new DictionaryActions.AddAction(identifiers));
 
-        if (metadata.href && metadata.href.indexOf('indicator') !== -1) {
-          const indicatorUrl =
-            'indicators/' +
-            metadata.id +
-            '.json?fields=:all,displayName,id,name,numeratorDescription,' +
-            'denominatorDescription,denominator,numerator,annualized,decimals,indicatorType[name],user[name],' +
-            'attributeValues[value,attribute[name]],indicatorGroups[name,indicators~size],legendSet[name,symbolizer,' +
-            'legends~size],dataSets[name]';
-          this.getIndicatorInfo(indicatorUrl, metadata.id);
-        } else if (
-          metadata.href &&
-          metadata.href.indexOf('dataElement') !== -1
-        ) {
-          const dataElementUrl =
-            'dataElements/' +
-            metadata.id +
-            '.json?fields=:all,id,name,aggregationType,displayName,' +
-            'categoryCombo[id,name,categories[id,name,categoryOptions[id,name]]],dataSets[:all,!compulsoryDataElementOperands]';
-          this.getDataElementInfo(dataElementUrl, metadata.id);
-        } else if (
-          metadata.href &&
-          metadata.href.indexOf('dataSet') !== -1
-        ) {
-          const dataSetUrl =
-            'dataSets/' +
-            metadata.id +
-            '.json?fields=:all,user[:all],id,name,periodType,shortName,' +
-            'categoryCombo[id,name,categories[id,name,categoryOptions[id,name]]]';
-          this.getDataSetInfo(dataSetUrl, metadata.id);
-        }
-      });
-    })
-  );
+        /**
+         * Identify corresponding dictionary items
+         */
+        from(identifiers)
+          .pipe(
+            mergeMap(identifier =>
+              this.httpClient.get(
+                `identifiableObjects/${identifier}.json`,
+                true
+              )
+            )
+          )
+          .subscribe((metadata: any) => {
+            this.store.dispatch(
+              new DictionaryActions.UpdateAction({
+                id: metadata.id,
+                name: metadata.name,
+                progress: {
+                  loading: true,
+                  loadingSucceeded: true,
+                  loadingFailed: false
+                }
+              })
+            );
+
+            if (metadata.href && metadata.href.indexOf('indicator') !== -1) {
+              const indicatorUrl =
+                'indicators/' +
+                metadata.id +
+                '.json?fields=:all,displayName,id,name,numeratorDescription,' +
+                'denominatorDescription,denominator,numerator,annualized,decimals,indicatorType[name],user[name],' +
+                'attributeValues[value,attribute[name]],indicatorGroups[name,indicators~size],legendSet[name,symbolizer,' +
+                'legends~size],dataSets[name]';
+              this.getIndicatorInfo(indicatorUrl, metadata.id);
+            } else if (
+              metadata.href &&
+              metadata.href.indexOf('dataElement') !== -1
+            ) {
+              const dataElementUrl =
+                'dataElements/' +
+                metadata.id +
+                '.json?fields=:all,id,name,aggregationType,displayName,' +
+                'categoryCombo[id,name,categories[id,name,categoryOptions[id,name]]],dataSets[:all,!compulsoryDataElementOperands]';
+              this.getDataElementInfo(dataElementUrl, metadata.id);
+            } else if (
+              metadata.href &&
+              metadata.href.indexOf('dataSet') !== -1
+            ) {
+              const dataSetUrl =
+                'dataSets/' +
+                metadata.id +
+                '.json?fields=:all,user[:all],id,name,periodType,shortName,' +
+                'categoryCombo[id,name,categories[id,name,categoryOptions[id,name]]]';
+              this.getDataSetInfo(dataSetUrl, metadata.id);
+            }
+          });
+      })
+    );
 
   getDataSetInfo(dataSetUrl: string, dataSetId: string) {
-    this.httpClient.get(`/api/${dataSetUrl}`, true).subscribe((dataSet: any) => {
+    this.httpClient.get(`${dataSetUrl}`, true).subscribe((dataSet: any) => {
       let dataSetDescription =
         '<p>' +
         dataSet.name +
@@ -173,151 +178,159 @@ export class DictionaryEffects {
   }
 
   getDataElementInfo(dataElementUrl: string, dataElementId: string) {
-    this.httpClient.get(`/api/${dataElementUrl}`, true).subscribe((dataElement: any) => {
-      let dataElementDescription =
-        '<p>This ' +
-        dataElement.name +
-        ' of this method of data aggregation <strong>' +
-        dataElement.aggregationType +
-        '</strong> created at <strong>' +
-        this.datePipe.transform(dataElement.created) +
-        '</strong> is only taking <strong>' +
-        dataElement.domainType +
-        '</strong> data. As the culture of helping user ' +
-        'not entering unrecognized data, therefore its only taking <strong>' +
-        dataElement.valueType +
-        '</strong> values ' +
-        'from the user input</p>';
-
-      if (dataElement.categoryCombo.name !== 'default') {
-        dataElementDescription +=
-          '<p><strong>' +
+    this.httpClient
+      .get(`${dataElementUrl}`, true)
+      .subscribe((dataElement: any) => {
+        let dataElementDescription =
+          '<p>This ' +
           dataElement.name +
-          '</strong> consists of <strong>' +
-          dataElement.categoryCombo.name +
-          '</strong> category combinations of ';
+          ' of this method of data aggregation <strong>' +
+          dataElement.aggregationType +
+          '</strong> created at <strong>' +
+          this.datePipe.transform(dataElement.created) +
+          '</strong> is only taking <strong>' +
+          dataElement.domainType +
+          '</strong> data. As the culture of helping user ' +
+          'not entering unrecognized data, therefore its only taking <strong>' +
+          dataElement.valueType +
+          '</strong> values ' +
+          'from the user input</p>';
 
-        dataElement.categoryCombo.categories.forEach((category, index) => {
-          if (
-            index !== 0 &&
-            index !== dataElement.categoryCombo.categories.length - 1
-          ) {
-            dataElementDescription += ', ';
-          }
-
-          if (
-            index === dataElement.categoryCombo.categories.length - 1 &&
-            dataElement.categoryCombo.categories.length > 1
-          ) {
-            dataElementDescription += ' and ';
-          }
-
-          dataElementDescription += '<strong>(';
-          category.categoryOptions.forEach(
-            (categoryOption, categoryOptionIndex) => {
-              if (
-                categoryOptionIndex !== 0 &&
-                categoryOptionIndex !== category.categoryOptions.length - 1
-              ) {
-                dataElementDescription += ', ';
-              }
-
-              if (
-                categoryOptionIndex === category.categoryOptions.length - 1 &&
-                category.categoryOptions.length > 1
-              ) {
-                dataElementDescription += ' and ';
-              }
-
-              dataElementDescription +=
-                '<span>' + categoryOption.name + '</span>';
-            }
-          );
-
+        if (dataElement.categoryCombo.name !== 'default') {
           dataElementDescription +=
-            ')</strong> of the <strong>' + category.name + '</strong> category';
-        });
+            '<p><strong>' +
+            dataElement.name +
+            '</strong> consists of <strong>' +
+            dataElement.categoryCombo.name +
+            '</strong> category combinations of ';
 
-        dataElementDescription += '</strong></p>';
-
-        // TODO deal with different version of dhis
-        if (dataElement.dataSets && dataElement.dataSets.length > 0) {
-          dataElementDescription += '<h5>' + dataElement.name + ' Sources</h5>';
-
-          dataElementDescription +=
-            '<p>More than <strong>' +
-            dataElement.dataSets.length +
-            '</strong> dataset ie ';
-
-          dataElement.dataSets.forEach((dataSet: any, dataSetIndex: number) => {
+          dataElement.categoryCombo.categories.forEach((category, index) => {
             if (
-              dataSetIndex !== 0 &&
-              dataSetIndex !== dataElement.dataSets.length - 1
+              index !== 0 &&
+              index !== dataElement.categoryCombo.categories.length - 1
             ) {
               dataElementDescription += ', ';
             }
 
             if (
-              dataSetIndex === dataElement.dataSets.length - 1 &&
-              dataElement.dataSets.length > 1
+              index === dataElement.categoryCombo.categories.length - 1 &&
+              dataElement.categoryCombo.categories.length > 1
             ) {
               dataElementDescription += ' and ';
             }
-            dataElementDescription += '<strong>' + dataSet.name + '</strong>';
-          });
 
-          dataElementDescription +=
-            ' use this ' + dataElement.name + ' data element';
-
-          if (
-            dataElement.dataElementGroups &&
-            dataElement.dataElementGroups.length > 0
-          ) {
-            dataElementDescription += ' and it belongs to ';
-
-            dataElement.dataElementGroups.forEach(
-              (dataElementGroup, dataElementGroupIndex) => {
+            dataElementDescription += '<strong>(';
+            category.categoryOptions.forEach(
+              (categoryOption, categoryOptionIndex) => {
                 if (
-                  dataElementGroupIndex !== 0 &&
-                  dataElementGroupIndex !==
-                  dataElement.dataElementGroups.length - 1
+                  categoryOptionIndex !== 0 &&
+                  categoryOptionIndex !== category.categoryOptions.length - 1
                 ) {
                   dataElementDescription += ', ';
                 }
 
                 if (
-                  dataElementGroupIndex ===
-                  dataElement.dataElementGroups.length - 1 &&
-                  dataElement.dataElementGroups.length > 1
+                  categoryOptionIndex === category.categoryOptions.length - 1 &&
+                  category.categoryOptions.length > 1
+                ) {
+                  dataElementDescription += ' and ';
+                }
+
+                dataElementDescription +=
+                  '<span>' + categoryOption.name + '</span>';
+              }
+            );
+
+            dataElementDescription +=
+              ')</strong> of the <strong>' +
+              category.name +
+              '</strong> category';
+          });
+
+          dataElementDescription += '</strong></p>';
+
+          // TODO deal with different version of dhis
+          if (dataElement.dataSets && dataElement.dataSets.length > 0) {
+            dataElementDescription +=
+              '<h5>' + dataElement.name + ' Sources</h5>';
+
+            dataElementDescription +=
+              '<p>More than <strong>' +
+              dataElement.dataSets.length +
+              '</strong> dataset ie ';
+
+            dataElement.dataSets.forEach(
+              (dataSet: any, dataSetIndex: number) => {
+                if (
+                  dataSetIndex !== 0 &&
+                  dataSetIndex !== dataElement.dataSets.length - 1
+                ) {
+                  dataElementDescription += ', ';
+                }
+
+                if (
+                  dataSetIndex === dataElement.dataSets.length - 1 &&
+                  dataElement.dataSets.length > 1
                 ) {
                   dataElementDescription += ' and ';
                 }
                 dataElementDescription +=
-                  '<strong>' + dataElementGroup.name + ' Group</strong>';
+                  '<strong>' + dataSet.name + '</strong>';
               }
             );
+
+            dataElementDescription +=
+              ' use this ' + dataElement.name + ' data element';
+
+            if (
+              dataElement.dataElementGroups &&
+              dataElement.dataElementGroups.length > 0
+            ) {
+              dataElementDescription += ' and it belongs to ';
+
+              dataElement.dataElementGroups.forEach(
+                (dataElementGroup, dataElementGroupIndex) => {
+                  if (
+                    dataElementGroupIndex !== 0 &&
+                    dataElementGroupIndex !==
+                      dataElement.dataElementGroups.length - 1
+                  ) {
+                    dataElementDescription += ', ';
+                  }
+
+                  if (
+                    dataElementGroupIndex ===
+                      dataElement.dataElementGroups.length - 1 &&
+                    dataElement.dataElementGroups.length > 1
+                  ) {
+                    dataElementDescription += ' and ';
+                  }
+                  dataElementDescription +=
+                    '<strong>' + dataElementGroup.name + ' Group</strong>';
+                }
+              );
+            }
+
+            dataElementDescription += '</p>';
           }
 
-          dataElementDescription += '</p>';
+          this.store.dispatch(
+            new DictionaryActions.UpdateAction({
+              id: dataElementId,
+              description: dataElementDescription,
+              progress: {
+                loading: false,
+                loadingSucceeded: true,
+                loadingFailed: false
+              }
+            })
+          );
         }
-
-        this.store.dispatch(
-          new DictionaryActions.UpdateAction({
-            id: dataElementId,
-            description: dataElementDescription,
-            progress: {
-              loading: false,
-              loadingSucceeded: true,
-              loadingFailed: false
-            }
-          })
-        );
-      }
-    });
+      });
   }
 
   getIndicatorInfo(indicatorUrl: string, indicatorId: string) {
-    this.httpClient.get(`/api/${indicatorUrl}`, true).subscribe((indicator: any) => {
+    this.httpClient.get(`${indicatorUrl}`, true).subscribe((indicator: any) => {
       let indicatorDescription =
         '<p><strong>' +
         indicator.name +
@@ -364,15 +377,15 @@ export class DictionaryEffects {
        */
       forkJoin(
         this.httpClient.get(
-          '/api/expressions/description?expression=' +
-          encodeURIComponent(indicator.numerator),
+          'expressions/description?expression=' +
+            encodeURIComponent(indicator.numerator),
           true
         ),
         this.httpClient.get(
-          '/api/dataSets.json?fields=periodType,id,name,timelyDays,formType,created,expiryDays&' +
-          'filter=dataSetElements.dataElement.id:in:[' +
-          this.getAvailableDataElements(indicator.numerator) +
-          ']&paging=false',
+          'dataSets.json?fields=periodType,id,name,timelyDays,formType,created,expiryDays&' +
+            'filter=dataSetElements.dataElement.id:in:[' +
+            this.getAvailableDataElements(indicator.numerator) +
+            ']&paging=false',
           true
         )
       ).subscribe((numeratorResults: any[]) => {
@@ -429,14 +442,16 @@ export class DictionaryEffects {
          */
         forkJoin(
           this.httpClient.get(
-            '/api/expressions/description?expression=' +
-            encodeURIComponent(indicator.denominator), true
+            'expressions/description?expression=' +
+              encodeURIComponent(indicator.denominator),
+            true
           ),
           this.httpClient.get(
-            '/api/dataSets.json?fields=periodType,id,name,timelyDays,formType,created,expiryDays&' +
-            'filter=dataSetElements.dataElement.id:in:[' +
-            this.getAvailableDataElements(indicator.denominator) +
-            ']&paging=false', true
+            'dataSets.json?fields=periodType,id,name,timelyDays,formType,created,expiryDays&' +
+              'filter=dataSetElements.dataElement.id:in:[' +
+              this.getAvailableDataElements(indicator.denominator) +
+              ']&paging=false',
+            true
           )
         ).subscribe((denominatorResults: any[]) => {
           if (denominatorResults[0]) {
@@ -592,11 +607,18 @@ export class DictionaryEffects {
     const uid = [];
     if (dataElement.indexOf('.') >= 1) {
       uid.push(
-        dataElement.replace(/#/g, '').replace(/{/g, '').replace(/}/g, '').split('.')[0]
+        dataElement
+          .replace(/#/g, '')
+          .replace(/{/g, '')
+          .replace(/}/g, '')
+          .split('.')[0]
       );
     } else {
       uid.push(
-        dataElement.replace(/#/g, '').replace(/{/g, '').replace(/}/g, '')
+        dataElement
+          .replace(/#/g, '')
+          .replace(/{/g, '')
+          .replace(/}/g, '')
       );
     }
 

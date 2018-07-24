@@ -1,12 +1,19 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnChanges, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnChanges,
+  OnInit
+} from '@angular/core';
 import { VisualizationLayer } from '../../models/visualization-layer.model';
 import { VisualizationInputs } from '../../models/visualization-inputs.model';
-import { Observable, Subject } from 'rxjs/index';
+import { Observable, Subject } from 'rxjs';
 import { Visualization } from '../../models/visualization.model';
 import { VisualizationUiConfig } from '../../models/visualization-ui-config.model';
 import { VisualizationProgress } from '../../models/visualization-progress.model';
 import { VisualizationConfig } from '../../models/visualization-config.model';
-import { VisualizationState } from '../../store/reducers/index';
+import { VisualizationState } from '../../store/reducers';
 import { Store } from '@ngrx/store';
 import {
   InitializeVisualizationObjectAction,
@@ -33,11 +40,11 @@ import { LoadVisualizationAnalyticsAction } from '../../store/actions/visualizat
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VisualizationComponent implements OnInit, OnChanges {
-
   @Input() id: string;
   @Input() type: string;
   @Input() visualizationLayers: VisualizationLayer[];
   @Input() name: string;
+  @Input() isNewFavorite: boolean;
 
   private _visualizationInputs$: Subject<VisualizationInputs> = new Subject();
   visualizationObject$: Observable<Visualization>;
@@ -47,45 +54,66 @@ export class VisualizationComponent implements OnInit, OnChanges {
   visualizationConfig$: Observable<VisualizationConfig>;
 
   constructor(private store: Store<VisualizationState>) {
-    this._visualizationInputs$.asObservable().
-      subscribe((visualizationInputs) => {
-        if (visualizationInputs) {
-          // initialize visualization object
-          this.store.dispatch(new InitializeVisualizationObjectAction(visualizationInputs.id, visualizationInputs.name,
+    this._visualizationInputs$.asObservable().subscribe(visualizationInputs => {
+      if (visualizationInputs) {
+        // initialize visualization object
+        this.store.dispatch(
+          new InitializeVisualizationObjectAction(
+            visualizationInputs.id,
+            visualizationInputs.name,
             visualizationInputs.type,
-            visualizationInputs.visualizationLayers));
+            visualizationInputs.visualizationLayers
+          )
+        );
 
-          // Get selectors
-          this.visualizationObject$ = this.store.select(getVisualizationObjectById(visualizationInputs.id));
-          this.visualizationLayers$ = this.store.select(getCurrentVisualizationObjectLayers(visualizationInputs.id));
-          this.visualizationUiConfig$ =
-            this.store.select(getCurrentVisualizationUiConfig(visualizationInputs.id));
-          this.visualizationProgress$ = this.store.select(getCurrentVisualizationProgress(visualizationInputs.id));
-          this.visualizationConfig$ = this.store.select(getCurrentVisualizationConfig(visualizationInputs.id));
-        }
-      });
+        // Get selectors
+        this.visualizationObject$ = this.store.select(
+          getVisualizationObjectById(visualizationInputs.id)
+        );
+        this.visualizationLayers$ = this.store.select(
+          getCurrentVisualizationObjectLayers(visualizationInputs.id)
+        );
+        this.visualizationUiConfig$ = this.store.select(
+          getCurrentVisualizationUiConfig(visualizationInputs.id)
+        );
+        this.visualizationProgress$ = this.store.select(
+          getCurrentVisualizationProgress(visualizationInputs.id)
+        );
+        this.visualizationConfig$ = this.store.select(
+          getCurrentVisualizationConfig(visualizationInputs.id)
+        );
+      }
+    });
   }
 
   ngOnChanges() {
-    this._visualizationInputs$.next(
-      {id: this.id, type: this.type, visualizationLayers: this.visualizationLayers, name: this.name});
+    this._visualizationInputs$.next({
+      id: this.id,
+      type: this.type,
+      visualizationLayers: this.visualizationLayers,
+      name: this.name
+    });
   }
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 
   onToggleVisualizationBody(uiConfig) {
-    this.store.dispatch(new ShowOrHideVisualizationBodyAction(uiConfig.id, {showBody: uiConfig.showBody}));
+    this.store.dispatch(
+      new ShowOrHideVisualizationBodyAction(uiConfig.id, {
+        showBody: uiConfig.showBody
+      })
+    );
   }
 
   onVisualizationTypeChange(visualizationTypeObject) {
     this.store.dispatch(
-      new UpdateVisualizationConfigurationAction(visualizationTypeObject.id,
-        {currentType: visualizationTypeObject.type}));
+      new UpdateVisualizationConfigurationAction(visualizationTypeObject.id, {
+        currentType: visualizationTypeObject.type
+      })
+    );
   }
 
-  onFullScreenAction(event: {id: string, uiConfigId: string}) {
+  onFullScreenAction(event: { id: string; uiConfigId: string }) {
     this.store.dispatch(new ToggleFullScreenAction(event.uiConfigId));
   }
 
@@ -101,7 +129,8 @@ export class VisualizationComponent implements OnInit, OnChanges {
       })
     );
 
-    this.store.dispatch(new LoadVisualizationAnalyticsAction(this.id, [visualizationLayer]));
+    this.store.dispatch(
+      new LoadVisualizationAnalyticsAction(this.id, [visualizationLayer])
+    );
   }
-
 }

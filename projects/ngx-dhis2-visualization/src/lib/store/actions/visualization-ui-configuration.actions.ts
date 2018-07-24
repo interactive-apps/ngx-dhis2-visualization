@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { VisualizationUiConfig } from '../../models/visualization-ui-config.model';
+import { VisualizationUiConfig } from '../../models';
 
 export enum VisualizationUiConfigurationActionTypes {
   ADD_ALL_VISUALIZATION_UI_CONFIGURATIONS = '[VisualizationUIConfig] Add all visualization Ui configurations',
@@ -9,35 +9,37 @@ export enum VisualizationUiConfigurationActionTypes {
 }
 
 export class AddVisualizationUiConfigurationAction implements Action {
-  readonly type = VisualizationUiConfigurationActionTypes.ADD_VISUALIZATION_UI_CONFIGURATION;
+  readonly type =
+    VisualizationUiConfigurationActionTypes.ADD_VISUALIZATION_UI_CONFIGURATION;
 
-  constructor(public visualizationUiConfiguration: VisualizationUiConfig) {
-  }
+  constructor(public visualizationUiConfiguration: VisualizationUiConfig) {}
 }
 
 export class AddAllVisualizationUiConfigurationsAction implements Action {
-  readonly type = VisualizationUiConfigurationActionTypes.ADD_ALL_VISUALIZATION_UI_CONFIGURATIONS;
+  readonly type =
+    VisualizationUiConfigurationActionTypes.ADD_ALL_VISUALIZATION_UI_CONFIGURATIONS;
 
-  constructor(public visualizationUiConfigurations: VisualizationUiConfig[]) {
-  }
+  constructor(public visualizationUiConfigurations: VisualizationUiConfig[]) {}
 }
 
 export class ShowOrHideVisualizationBodyAction implements Action {
-  readonly type = VisualizationUiConfigurationActionTypes.SHOW_OR_HIDE_VISUALIZATION_BODY;
+  readonly type =
+    VisualizationUiConfigurationActionTypes.SHOW_OR_HIDE_VISUALIZATION_BODY;
 
-  constructor(public id: string, public changes: Partial<VisualizationUiConfig>) {
-  }
+  constructor(
+    public id: string,
+    public changes: Partial<VisualizationUiConfig>
+  ) {}
 }
 
 export class ToggleFullScreenAction implements Action {
   readonly type = VisualizationUiConfigurationActionTypes.TOGGLE_FULL_SCREEN;
 
-  constructor(public id: string) {
-  }
+  constructor(public id: string) {}
 }
 
 export type VisualizationUiConfigurationAction =
-  AddAllVisualizationUiConfigurationsAction
+  | AddAllVisualizationUiConfigurationsAction
   | AddVisualizationUiConfigurationAction
   | ShowOrHideVisualizationBodyAction
   | ToggleFullScreenAction;

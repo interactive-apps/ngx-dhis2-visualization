@@ -1,8 +1,11 @@
-import * as _ from "lodash";
+import * as _ from 'lodash';
 export function getStandardizedAnalyticsObject(
   analyticsObject: any,
   preferNormalStructure: boolean = false
 ) {
+  if (analyticsObject && analyticsObject.count) {
+    return analyticsObject;
+  }
   const sanitizedAnalyticsObject: any = {
     headers: [],
     metaData: {
@@ -22,7 +25,7 @@ export function getStandardizedAnalyticsObject(
           const newHeader: any = header;
           sanitizedAnalyticsObject.headers.push(newHeader);
         } catch (e) {
-          console.warn("Invalid header object");
+          console.warn('Invalid header object');
         }
       });
     }
@@ -38,7 +41,7 @@ export function getStandardizedAnalyticsObject(
         );
         sanitizedAnalyticsObject.metaData = sanitizedMetadata;
       } catch (e) {
-        console.warn("Invalid metadata object");
+        console.warn('Invalid metadata object');
       }
     }
 
@@ -50,7 +53,7 @@ export function getStandardizedAnalyticsObject(
     }
   }
 
-  return sanitizedAnalyticsObject;
+  return analyticsObject ? sanitizedAnalyticsObject : null;
 }
 
 function getSanitizedAnalyticsMetadata(
@@ -74,7 +77,7 @@ function getSanitizedAnalyticsMetadata(
             analyticMetadata.items[metadataItemKey].name;
         });
       }
-      sanitizedMetadata["names"] = metadataNames;
+      sanitizedMetadata['names'] = metadataNames;
     }
 
     /**
@@ -82,7 +85,7 @@ function getSanitizedAnalyticsMetadata(
      */
     if (analyticMetadata.dimensions) {
       if (!preferNormalStructure) {
-        sanitizedMetadata["dimensions"] = analyticMetadata.dimensions;
+        sanitizedMetadata['dimensions'] = analyticMetadata.dimensions;
       } else {
         sanitizedMetadata = {
           ...sanitizedMetadata,
@@ -94,13 +97,13 @@ function getSanitizedAnalyticsMetadata(
       const metadataDimensions: any = {};
       if (metadataKeys) {
         metadataKeys.forEach(metadataKey => {
-          if (metadataKey !== "names") {
+          if (metadataKey !== 'names') {
             metadataDimensions[metadataKey] = analyticMetadata[metadataKey];
           }
         });
       }
       if (!preferNormalStructure) {
-        sanitizedMetadata["dimensions"] = metadataDimensions;
+        sanitizedMetadata['dimensions'] = metadataDimensions;
       } else {
         sanitizedMetadata = {
           ...sanitizedMetadata,

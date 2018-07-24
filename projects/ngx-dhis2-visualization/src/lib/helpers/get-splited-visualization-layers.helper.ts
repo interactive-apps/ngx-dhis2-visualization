@@ -1,17 +1,24 @@
-import { getISOFormatFromRelativePeriod } from './get-iso-format-from-relative-period.helper';
+import * as _ from 'lodash';
 import { getSplitedAnalytics } from './get-splited-analytics.helper';
 import { getSplitedFavorite } from './get-splited-favorite.helper';
-import * as _ from 'lodash';
-import { VisualizationLayer } from '../models/visualization-layer.model';
+import { VisualizationLayer } from '../models/index';
 
-export function getSplitedVisualizationLayers(type: string, visualizationLayers: VisualizationLayer[]): VisualizationLayer[] {
+export function getSplitedVisualizationLayers(
+  type: string,
+  visualizationLayers: VisualizationLayer[]
+): VisualizationLayer[] {
   if (type === 'MAP') {
     return visualizationLayers;
   }
 
   let newSplitedLayers: any[] = [];
-  const favoriteObjectArray = _.map(visualizationLayers, layer => splitPeriodISo(layer.config, layer.analytics));
-  const analyticsObjectArray = _.map(visualizationLayers, layer => layer.analytics);
+  const favoriteObjectArray = _.map(visualizationLayers, layer =>
+    splitPeriodISo(layer.config, layer.analytics)
+  );
+  const analyticsObjectArray = _.map(
+    visualizationLayers,
+    layer => layer.analytics
+  );
 
   /**
    * Split analytics
@@ -50,7 +57,6 @@ export function getSplitedVisualizationLayers(type: string, visualizationLayers:
 }
 
 export const splitPeriodISo = (settings, analytics) => {
-
   if (!analytics || !analytics.metaData) {
     return settings;
   }
@@ -69,7 +75,10 @@ export const splitPeriodISo = (settings, analytics) => {
     };
   });
   const parentdimension = getPeriodParentDimension(settings);
-  const periodIndex = _.findIndex(settings[parentdimension], ['dimension', 'pe']);
+  const periodIndex = _.findIndex(settings[parentdimension], [
+    'dimension',
+    'pe'
+  ]);
   const dimensions = settings[parentdimension].map((dimension, index) => {
     if (index === periodIndex) {
       return { dimension: 'pe', items };
@@ -80,7 +89,8 @@ export const splitPeriodISo = (settings, analytics) => {
   return { ...settings, ...data };
 };
 
-const getDimension = (dimension, arr) => arr.filter(item => item.dimension === dimension)[0];
+const getDimension = (dimension, arr) =>
+  arr.filter(item => item.dimension === dimension)[0];
 
 const getDimensionItems = (dimension, arr) => {
   const dataItems = getDimension(dimension, arr);
@@ -89,6 +99,8 @@ const getDimensionItems = (dimension, arr) => {
 
 const getPeriodParentDimension = settings => {
   const keys = ['rows', 'columns', 'filters'];
-  const parentdimensions = keys.filter(key => getDimensionItems('pe', settings[key]).length);
+  const parentdimensions = keys.filter(
+    key => getDimensionItems('pe', settings[key]).length
+  );
   return parentdimensions[0];
 };
