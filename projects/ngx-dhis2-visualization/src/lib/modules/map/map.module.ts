@@ -6,27 +6,24 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { reducers, effects } from './store/index';
 // containers
-import * as fromContainers from './containers/index';
+import { containers } from './containers/index';
 // components
-import * as fromComponents from './components/index';
-
-import * as fromServices from './services/index';
+import { components } from './components/index';
 
 import { NgxPaginationModule } from 'ngx-pagination';
 
 // Filters Modules
-import * as Filters from './modules/index';
+import { modules } from './modules/index';
 
 @NgModule({
   imports: [
     CommonModule,
     NgxPaginationModule,
-    ...Filters.modules,
+    ...modules,
     StoreModule.forFeature('map', reducers),
     EffectsModule.forFeature(effects)
   ],
-  providers: [...fromServices.services],
-  declarations: [...fromContainers.containers, ...fromComponents.components],
-  exports: [...fromContainers.containers, ...fromComponents.components]
+  declarations: [...containers, ...components],
+  exports: [...containers, ...components]
 })
 export class MapModule {}

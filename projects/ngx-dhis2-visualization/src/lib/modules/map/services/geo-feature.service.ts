@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClientService } from './http-client.service';
-import { Observable ,  forkJoin ,  combineLatest } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-
+import { Observable, combineLatest } from 'rxjs';
 
 import { GeoFeature } from '../models/geo-feature.model';
+import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class GeoFeatureService {
-  constructor(private httpClient: HttpClientService) {}
+  constructor(private httpClient: NgxDhis2HttpClientService) {}
 
   getGeoFeaturesArray(params) {
     const requests = params.map(param => {

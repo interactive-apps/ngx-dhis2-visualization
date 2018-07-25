@@ -4,7 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { ManifestService } from './manifest.service';
 import { catchError, mergeMap } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class HttpClientService {
   private _rootUrl: string;
   private _apiRootUrl: string;

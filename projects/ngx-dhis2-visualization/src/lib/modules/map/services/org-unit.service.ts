@@ -1,19 +1,14 @@
-
-import {throwError as observableThrowError,  Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
+import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
 
-
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OrgUnitService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: NgxDhis2HttpClientService) {}
 
   getOrganisationUnitGroupSets(uid: string): Observable<any> {
-    return this.httpClient
-      .get(
-        `../../../api/organisationUnitGroupSets/${uid}.json?fields=organisationUnitGroups%5Bid,displayShortName~rename(name),symbol%5D&_dc=1516105315642`
-      )
-      .pipe(catchError((error: any) => observableThrowError(error.json())));
+    return this.httpClient.get(
+      `organisationUnitGroupSets/${uid}.json?fields=organisationUnitGroups%5Bid,displayShortName~rename(name),symbol%5D&_dc=1516105315642`
+    );
   }
 }

@@ -7,6 +7,7 @@ import {
 } from '../../icons';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'app-visualization-types-section',
   templateUrl: './visualization-types-section.component.html',
   styleUrls: ['./visualization-types-section.component.css']

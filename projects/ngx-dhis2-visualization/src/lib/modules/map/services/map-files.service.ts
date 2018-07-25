@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
 import { saveAs } from 'file-saver';
-import * as shapeWrite from 'shp-write';
-import { Observable } from 'rxjs';
-import { hasOwnProperty } from 'tslint/lib/utils';
 import { ShapeFileService } from './shapefile-services/shape-file.service';
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class MapFilesService {
   geometry: any;
 
@@ -1078,14 +1075,14 @@ export class MapFilesService {
 
   private _getFeatureTagsAccordingToType(featureType, _): string {
     let format = '';
-    if (featureType == 'Point') {
+    if (featureType === 'Point') {
       format = this._preparePointMembers(_.geometry.coordinates);
     }
 
-    if (featureType == 'LineString' || featureType == 'MultiLineString') {
+    if (featureType === 'LineString' || featureType === 'MultiLineString') {
     }
 
-    if (featureType == 'Polygon' || featureType == 'MultiPolygon') {
+    if (featureType === 'Polygon' || featureType === 'MultiPolygon') {
       format = this._tag(
         'gml:' + featureType,
         this._preparePolygonMembers(_.geometry.coordinates),
@@ -1118,7 +1115,7 @@ export class MapFilesService {
   }
 
   private sanitizeStringForXML(stringElement: string): string {
-    if (typeof stringElement == 'string') {
+    if (typeof stringElement === 'string') {
       if (stringElement.indexOf('&') >= 0) {
         stringElement = stringElement.replace('&', '&amp;');
       }
@@ -1172,7 +1169,7 @@ export class MapFilesService {
   }
 
   private _prepareFeatureBlocks(coordinates): any[] {
-    let blocks = [];
+    const blocks = [];
     if (this._isFinalBlock(coordinates)) {
       blocks.push(coordinates);
     } else {
@@ -1191,7 +1188,7 @@ export class MapFilesService {
   }
 
   private _convertfeatureCoordinateToGmlFormat(coordinates) {
-    let gmlCoordinates = this._getCoordinate(coordinates);
+    const gmlCoordinates = this._getCoordinate(coordinates);
     return gmlCoordinates;
   }
 
@@ -1200,7 +1197,7 @@ export class MapFilesService {
     coordinates.forEach((coordinate, index) => {
       if (!isNaN(coordinate)) {
         coord += coordinate;
-        if (index == 0) {
+        if (index === 0) {
           coord += ',';
         } else {
           coord += ' ';

@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --prod --aot",
     "build-lib": "ng build --prod ngx-dhis2-visualization",
     "test": "ng test",
     "lint": "ng lint",

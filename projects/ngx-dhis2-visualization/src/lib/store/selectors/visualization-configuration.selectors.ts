@@ -1,7 +1,7 @@
 import {
   getVisualizationObjectEntities,
   getVisualizationConfigurationEntities
-} from '../reducers';
+} from '../reducers/index';
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import {
   Visualization,
@@ -9,7 +9,7 @@ import {
   VisualizationUiConfig,
   VisualizationLayer,
   VisualizationLayout
-} from '../../models';
+} from '../../models/index';
 
 export const getCurrentVisualizationConfig = (visualizationId: string) =>
   createSelector(

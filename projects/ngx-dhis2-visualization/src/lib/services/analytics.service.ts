@@ -3,8 +3,8 @@ import { Observable, of } from 'rxjs';
 import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
 
 import { VisualizationDataSelection } from '../models/index';
-import { getAnalyticsUrl } from '../helpers';
-import { tap, mergeMap } from 'rxjs/operators';
+import { getAnalyticsUrl } from '../helpers/index';
+import { mergeMap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AnalyticsService {

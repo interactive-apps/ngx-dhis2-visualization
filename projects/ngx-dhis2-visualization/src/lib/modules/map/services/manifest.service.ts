@@ -24,7 +24,7 @@ interface Manifest {
   };
 }
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ManifestService {
   private _manifestObject: Manifest;
 

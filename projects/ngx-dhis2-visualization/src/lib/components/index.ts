@@ -8,7 +8,12 @@ import { VisualizationResizeSectionComponent } from './visualization-resize-sect
 import { VisualizationBodySectionComponent } from './visualization-body-section/visualization-body-section';
 
 export const components: any[] = [
-  VisualizationTitleSectionComponent, VisualizationCardLoaderComponent, VisualizationErrorNotifierComponent,
-  VisualizationFooterSectionComponent, VisualizationTypesSectionComponent, VisualizationHeaderSectionComponent,
-  VisualizationResizeSectionComponent, VisualizationBodySectionComponent
+  VisualizationTitleSectionComponent,
+  VisualizationCardLoaderComponent,
+  VisualizationErrorNotifierComponent,
+  VisualizationFooterSectionComponent,
+  VisualizationTypesSectionComponent,
+  VisualizationHeaderSectionComponent,
+  VisualizationResizeSectionComponent,
+  VisualizationBodySectionComponent
 ];

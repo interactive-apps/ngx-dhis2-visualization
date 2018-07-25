@@ -1,13 +1,13 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 // models
-import { Visualization } from '../../models';
+import { Visualization } from '../../models/index';
 
 // actions
 import {
   VisualizationObjectAction,
   VisualizationObjectActionTypes
-} from '../actions';
+} from '../actions/index';
 
 export interface VisualizationObjectState extends EntityState<Visualization> {}
 

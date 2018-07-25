@@ -1,21 +1,20 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class SystemService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: NgxDhis2HttpClientService) {}
 
   getSystemInfo(): Observable<any> {
-    return this.httpClient.get('../../../api/system/info.json');
+    return this.httpClient.get('system/info.json');
   }
 
   getGoogleEarthToken(): Observable<any> {
-    return this.httpClient.get('../../../api/tokens/google');
+    return this.httpClient.get('tokens/google');
   }
 
   getMapID(): Observable<any> {
-    return this.httpClient.get('../../../api/tokens/google');
+    return this.httpClient.get('tokens/google');
   }
 }

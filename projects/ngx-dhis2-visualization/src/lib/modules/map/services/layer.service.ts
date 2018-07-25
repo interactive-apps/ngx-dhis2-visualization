@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import { of ,  Observable } from 'rxjs';
-import { Layer } from '../models/layer.model';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class LayerService {
   constructor() {}
 }

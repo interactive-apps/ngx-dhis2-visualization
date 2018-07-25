@@ -4,16 +4,16 @@ import {
   getVisualizationObjectEntities,
   getVisualizationLayerEntities,
   getVisualizationUiConfigurationEntities
-} from '../reducers';
+} from '../reducers/index';
 import {
   Visualization,
   VisualizationUiConfig,
   VisualizationLayer
-} from '../../models';
+} from '../../models/index';
 import {
   getVisualizationMetadataIdentifiers,
   getVisualizationLayout
-} from '../../helpers';
+} from '../../helpers/index';
 
 export const getCurrentVisualizationObjectLayers = (visualizationId: string) =>
   createSelector(
