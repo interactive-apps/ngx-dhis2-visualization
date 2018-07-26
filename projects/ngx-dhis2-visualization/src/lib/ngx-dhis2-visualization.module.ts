@@ -7,6 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgxDhis2ChartModule } from '@hisptz/ngx-dhis2-chart';
 import { NgxDhis2TableModule } from '@hisptz/ngx-dhis2-table';
 import { NgxDhis2DictionaryModule } from '@hisptz/ngx-dhis2-dictionary';
+import { NgxDhis2SelectionFiltersModule } from '@hisptz/ngx-dhis2-selection-filters';
 
 // store
 import { reducers } from './store/reducers/index';
@@ -24,7 +25,8 @@ import { effects } from './store/effects/index';
     EffectsModule.forFeature(effects),
     NgxDhis2ChartModule,
     NgxDhis2TableModule,
-    NgxDhis2DictionaryModule
+    NgxDhis2DictionaryModule,
+    NgxDhis2SelectionFiltersModule
     // MapModule
   ],
   declarations: [...pipes, ...components, ...containers],

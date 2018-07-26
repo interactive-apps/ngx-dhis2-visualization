@@ -15,8 +15,9 @@ export class AnalyticsService {
     layerType: string,
     config?: any
   ): Observable<any> {
-    const analyticsUrl =
-      layerType === 'thematic' || layerType === 'event'
+    const analyticsUrl = !layerType
+      ? getAnalyticsUrl(dataSelections, 'thematic', config)
+      : layerType === 'thematic' || layerType === 'event'
         ? getAnalyticsUrl(dataSelections, layerType, config)
         : '';
     return analyticsUrl !== ''

@@ -60,7 +60,7 @@ function getAggregateAnalyticsUrl(
 }
 
 function getAnalyticsUrlOptions(config: any, layerType: string) {
-  if (!config && !layerType) {
+  if (!config || !layerType) {
     return '';
   }
 

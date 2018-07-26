@@ -10,4 +10,9 @@ export interface VisualizationDataSelection {
     name: string;
     type: string;
   }>;
+  groups: Array<{
+    id: string;
+    name: string;
+    members: Array<string>;
+  }>;
 }
