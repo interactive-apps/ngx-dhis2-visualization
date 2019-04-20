@@ -1,5 +1,5 @@
 {
-  "name": "@hisptz/ngx-dhis2-visualization",
+  "name": "@iapps/ngx-dhis2-visualization",
   "license": "BSD",
   "description": "Visualization module for dhis2 applications based on angular 6",
   "repository": {
@@ -8,8 +8,8 @@
   },
   "version": "1.0.2",
   "peerDependencies": {
-    "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
-    "@angular/core": "^6.0.0-rc.0 || ^6.0.0",
+    "@angular/common": "^6.0.0-rc.0 || ^6.0.0 || ^7.0.0",
+    "@angular/core": "^6.0.0-rc.0 || ^6.0.0 || ^7.0.0",
     "@types/geojson": "^7946.0.1",
     "@types/polylabel": "^1.0.5",
     "@mapbox/geojson-area": "^0.2.2",
