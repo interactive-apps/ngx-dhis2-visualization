@@ -1,5 +1,7 @@
 # NgxDhis2VisualizationModule
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/interactive-apps/ngx-dhis2-visualization.svg)](https://greenkeeper.io/)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.3.
 
 ## Development server
